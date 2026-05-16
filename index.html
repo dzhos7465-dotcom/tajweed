@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Таджвид — Идгам Мима (م)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --gold: #f1c40f;
+    --bg: #0f1b2d;
+    --card: #1a2d45;
+    --accent: #3498db;
+    --text: #f0f4ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; font-style: normal;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 40px;
+  }
+
+  /* Stars background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    z-index: 1;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .title {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: clamp(1.9rem, 6vw, 2.6rem);
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #8ab4d4;
+    margin-top: 6px;
+  }
+
+  /* Score bar */
+  .score-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(52,152,219,0.2);
+  }
+
+  .score-item {
+    text-align: center;
+  }
+
+  .score-num {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+    color: #8ab4d4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .score-num.correct { color: var(--green); }
+  .score-num.wrong { color: var(--red); }
+  .score-num.total { color: var(--gold); }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    height: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    transition: width 0.5s ease;
+  }
+
+  /* Question card */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+    border: 1px solid rgba(52,152,219,0.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: slideIn 0.4s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-num {
+    font-size: 0.75rem;
+    color: #8ab4d4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-size: clamp(1.1rem, 4vw, 1.35rem);
+    font-weight: 800;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .arabic {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    text-align: center;
+    margin: 14px 0;
+    letter-spacing: 2px;
+    color: var(--gold);
+    direction: rtl;
+  }
+
+  .hint {
+    font-size: 0.82rem;
+    color: #8ab4d4;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  /* Options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(52,152,219,0.25);
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; font-style: normal;
+    font-size: clamp(1rem, 3.5vw, 1.1rem);
+    font-weight: 800;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: rgba(52,152,219,0.15);
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .option-btn .opt-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(52,152,219,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .option-btn.correct {
+    background: rgba(46,204,113,0.15);
+    border-color: var(--green);
+  }
+
+  .option-btn.correct .opt-letter {
+    background: var(--green);
+    color: #fff;
+  }
+
+  .option-btn.wrong {
+    background: rgba(231,76,60,0.12);
+    border-color: var(--red);
+  }
+
+  .option-btn.wrong .opt-letter {
+    background: var(--red);
+    color: #fff;
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: none;
+    animation: popIn 0.3s ease;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(46,204,113,0.15); border: 1px solid var(--green); color: var(--green); }
+  .feedback.wrong-fb  { background: rgba(231,76,60,0.12);  border: 1px solid var(--red);   color: #ff9a93; }
+
+  .feedback-detail {
+    font-weight: 400;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    color: var(--text);
+    opacity: 0.85;
+  }
+
+  /* Next button */
+  .next-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #2980b9);
+    color: #fff;
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(52,152,219,0.35);
+  }
+
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52,152,219,0.45); }
+  .next-btn.show { display: block; animation: popIn 0.3s ease; }
+
+  /* Result screen */
+  .result-screen {
+    display: none;
+    text-align: center;
+    animation: slideIn 0.5s ease;
+  }
+
+  .result-screen.show { display: block; }
+
+  .result-emoji {
+    font-size: 4rem;
+    margin-bottom: 12px;
+  }
+
+  .result-title {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 2.2rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .result-sub {
+    color: #c8dcf0;
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  .result-score-big {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 3.5rem;
+    margin-bottom: 4px;
+  }
+
+  .result-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 16px 0 28px;
+  }
+
+  .rb-item {
+    text-align: center;
+  }
+
+  .rb-num {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 1.8rem;
+  }
+
+  .rb-label {
+    font-size: 0.72rem;
+    color: #8ab4d4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .restart-btn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gold), #e67e22);
+    color: #1a1a1a;
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif; font-style: normal;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.15s;
+    box-shadow: 0 4px 16px rgba(241,196,15,0.35);
+  }
+
+  .restart-btn:hover { transform: translateY(-2px); }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="title">🌙 Идгам Мима (م)</div>
+    <div class="subtitle">Закрепление пройденной темы</div>
+  </header>
+
+  <div class="score-bar">
+    <div class="score-item">
+      <div class="score-num correct" id="scoreCorrect">0</div>
+      <div class="score-label">✓ Верно</div>
+    </div>
+    <div class="score-item">
+      <div class="score-num total" id="scoreTotal">0</div>
+      <div class="score-label">из 7</div>
+    </div>
+    <div class="score-item">
+      <div class="score-num wrong" id="scoreWrong">0</div>
+      <div class="score-label">✗ Ошибок</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quizArea">
+    <div class="card" id="questionCard">
+      <div class="question-num" id="questionNum">Вопрос 1 из 7</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <div class="question-text" id="questionText" style="flex:1"></div>
+        <button id="speakBtn" onclick="speakQuestion()" title="Прочитать вопрос" style="background:rgba(52,152,219,0.2);border:1.5px solid rgba(52,152,219,0.4);border-radius:10px;padding:7px 10px;cursor:pointer;font-size:1.1rem;flex-shrink:0;color:#fff;transition:background 0.2s;">🔊</button>
+      </div>
+      <div class="arabic" id="arabicText"></div>
+      <div class="hint" id="hintText"></div>
+      <div class="options" id="optionsArea"></div>
+      <div class="feedback" id="feedback">
+        <div id="feedbackMain"></div>
+        <div class="feedback-detail" id="feedbackDetail"></div>
+      </div>
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Следующий вопрос →</button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-screen" id="resultScreen">
+    <div class="result-emoji" id="resultEmoji">🌟</div>
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-breakdown">
+      <div class="rb-item">
+        <div class="rb-num" style="color:var(--green)" id="rCorrect">0</div>
+        <div class="rb-label">Верно</div>
+      </div>
+      <div class="rb-item">
+        <div class="rb-num" style="color:var(--red)" id="rWrong">0</div>
+        <div class="rb-label">Ошибок</div>
+      </div>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 Пройти снова</button>
+  </div>
+
+</div>
+
+<script>
+// =============================================
+// ВОПРОСЫ (10 штук по структуре)
+// =============================================
+const questions = [
+
+  // --- ТЕОРИЯ (2 вопроса) ---
+  {
+    type: "theory",
+    text: "Когда возникает правило Идгам Мима (م)?",
+    arabic: "",
+    hint: "Вспомни: это правило про одну конкретную ситуацию",
+    audio: "q1.MP3",
+    options: [
+      { text: "Когда после любой буквы с сукуном идёт мим", correct: false },
+      { text: "Когда после мима с сукуном идёт буква мим", correct: true },
+      { text: "Когда два мима стоят в одном слове рядом", correct: false },
+      { text: "Когда мим стоит в конце аята", correct: false },
+    ],
+    explain: "Идгам Мима возникает только в одном случае: мим с сукуном (مْ), после которого сразу идёт буква мим с огласовкой."
+  },
+  {
+    type: "theory",
+    text: "Что происходит при Идгам Мима — как читаются два мима?",
+    arabic: "مْ + مَ = مَّ",
+    hint: "Знак шадда ( ّ ) означает удвоение",
+    audio: "q2.MP3",
+    options: [
+      { text: "Оба мима читаются отдельно и чётко", correct: false },
+      { text: "Первый мим пропадает, второй читается коротко", correct: false },
+      { text: "Первый мим вливается во второй, второй читается удвоенно с гунной", correct: true },
+      { text: "Оба мима сливаются в один короткий звук без гунны", correct: false },
+    ],
+    explain: "Первый мим (с сукуном) сливается со вторым. Второй мим читается с шаддой — удвоенно, и обязательно с носовым звуком гунна (2 счёта)."
+  },
+
+  // --- РАСПОЗНАВАНИЕ (4 вопроса) ---
+  {
+    type: "recognition",
+    text: "Есть ли в этом примере Идгам Мима?",
+    arabic: "مِنْكُم مَّنْ",
+    hint: "Смотри на последнюю букву первого слова и первую букву второго",
+    audio: "q3.MP3",
+    options: [
+      { text: "Да — مْ встречает مَ, происходит слияние", correct: true },
+      { text: "Нет — это разные слова, правило не работает между словами", correct: false },
+      { text: "Нет — здесь нет мима с сукуном", correct: false },
+      { text: "Нет — нужна шадда прямо над буквой в тексте", correct: false },
+    ],
+    explain: "В слове مِنْكُم последняя буква — مْ (мим с сукуном). Следующее слово مَّنْ начинается с мима. Это Идгам Мима — слияние работает и между словами!"
+  },
+  {
+    type: "recognition",
+    text: "Есть ли в этом примере Идгам Мима?",
+    arabic: "لَكُم مَّا",
+    hint: "Найди мим с сукуном",
+    audio: "q4.MP3",
+    options: [
+      { text: "Да — мим с сукуном встречает мим, правило работает", correct: true },
+      { text: "Нет — буква ما не начинается с мима", correct: false },
+      { text: "Нет — لَكُم заканчивается не на мим", correct: false },
+      { text: "Нет — здесь изхар, не идгам", correct: false },
+    ],
+    explain: "لَكُم заканчивается на مْ (мим с сукуном). Следующее слово مَّا начинается с мима с шаддой. Идгам Мима — слияние произошло."
+  },
+  {
+    type: "recognition",
+    text: "В каком из этих примеров есть Идгам Мима?",
+    arabic: "",
+    hint: "Ищи сочетание مْ + مَ",
+    audio: "q5.MP3",
+    options: [
+      { text: "رَبِّهِم مِّنْ — мим сукун встречает мим", correct: true },
+      { text: "مِنْ بَعْدِ — мим сукун встречает ба", correct: false },
+      { text: "عَنْهُم — нун сукун перед ха", correct: false },
+      { text: "أَنْتُم — нун сукун, не мим", correct: false },
+    ],
+    explain: "В رَبِّهِم مِّنْ последняя буква первого слова — مْ, первая буква второго — م. Это и есть Идгам Мима. В остальных примерах либо другая буква, либо другое правило."
+  },
+  {
+    type: "recognition",
+    text: "Сколько раз встречается Идгам Мима в этом аяте?",
+    arabic: "لَهُم مَّا يَشَاءُونَ",
+    hint: "Посчитай сочетания مْ + م",
+    audio: "q6.MP3",
+    options: [
+      { text: "Ни разу", correct: false },
+      { text: "Один раз — لَهُم مَّا", correct: true },
+      { text: "Два раза", correct: false },
+      { text: "Три раза", correct: false },
+    ],
+    explain: "В аяте один случай Идгам Мима: لَهُم мим с сукуном + مَّا мим с шаддой. Только одно место!"
+  },
+
+  // --- ЛОВУШКИ (2 вопроса) ---
+  {
+    type: "trap",
+    text: "Ученик сказал: «При Идгам Мима первый мим вообще не читается — он полностью пропадает». Он прав?",
+    arabic: "",
+    hint: "Подумай — куда «уходит» первый мим?",
+    audio: "q7.MP3",
+    options: [
+      { text: "Да, первый мим полностью исчезает и не слышен", correct: false },
+      { text: "Нет — первый мим сливается со вторым, и вместе они дают удвоенный мим с гунной", correct: true },
+      { text: "Да, оба мима пропадают и читается только гунна", correct: false },
+      { text: "Нет — первый мим читается кратко, потом второй", correct: false },
+    ],
+    explain: "Первый мим не «пропадает» — он сливается со вторым. В результате слышится один удвоенный мим с гунной. Это называется идгам — слияние, а не удаление."
+  },
+  {
+    type: "trap",
+    text: "Посмотри на пример. Здесь Идгам Мима или нет?",
+    arabic: "مِنْ مَاءٍ",
+    hint: "Внимательно: какая буква стоит перед مَاءٍ?",
+    audio: "q8.MP3",
+    options: [
+      { text: "Нет — перед مَاءٍ стоит نْ (нун с сукуном), не مْ", correct: true },
+      { text: "Да — مَاءٍ начинается с мима, значит идгам мима", correct: false },
+      { text: "Да — любой сукун перед мимом даёт идгам мима", correct: false },
+      { text: "Нет — потому что это разные слова", correct: false },
+    ],
+    explain: "Ловушка! Слово مِنْ заканчивается на نْ (нун с сукуном), а не мим. Следующее слово مَاءٍ начинается с мима — но перед ним не مْ, а نْ. Это другое правило — не Идгам Мима."
+  },
+
+  // --- ПРАКТИКА ИЗ АЯТОВ (2 вопроса) ---
+  {
+    type: "ayah",
+    text: "Найди Идгам Мима в этом аяте и скажи — где именно он происходит?",
+    arabic: "فَمَا مِنْكُم مِّنْ أَحَدٍ عَنْهُ حَاجِزِينَ",
+    hint: "Ищи مْ перед م",
+    audio: "q9.MP3",
+    options: [
+      { text: "مِنْكُم مِّنْ — мим сукун встречает мим", correct: true },
+      { text: "فَمَا مِنْكُم — буква ما встречает مِنْكُم", correct: false },
+      { text: "عَنْهُ حَاجِزِينَ — нун сукун перед ха", correct: false },
+      { text: "В этом аяте нет Идгам Мима", correct: false },
+    ],
+    explain: "В этом аяте Идгам Мима в месте مِنْكُم مِّنْ — последняя буква مِنْكُم это مْ (мим с сукуном), а следующее слово مِّنْ начинается с мима с шаддой. Слияние!"
+  },
+  {
+    type: "ayah",
+    text: "Прочитай аят и выбери правильное описание того, как читается выделенное место:",
+    arabic: "لَهُم مَّا يَشَاءُونَ",
+    hint: "Как произносится مَّ после слияния?",
+    audio: "q10.MP3",
+    options: [
+      { text: "لَهُمْ читается с паузой, потом مَّا отдельно", correct: false },
+      { text: "لَهُم مَّا читается слитно, مَّ произносится удвоенно с носовым звуком", correct: true },
+      { text: "Буква مْ в لَهُم читается чётко и кратко перед مَّا", correct: false },
+      { text: "لَهُم مَّا читается как одно слово без удвоения", correct: false },
+    ],
+    explain: "لَهُم مَّا читается слитно: مْ сливается с مَّ, и слышится один удвоенный мим с гунной (носовым звуком длиной 2 счёта). Паузы между словами нет."
+  }
+];
+
+// =============================================
+// СОСТОЯНИЕ
+// =============================================
+let current = 0;
+let correct = 0;
+let wrong = 0;
+let answered = false;
+let currentAudio = null;
+
+// =============================================
+// АУДИО — MP3 файлы твоего голоса
+// =============================================
+
+// Названия файлов для каждого вопроса (положи рядом с index.html)
+// q1.MP3, q2.MP3 ... q10.MP3
+
+function playQuestionAudio(filename) {
+  if (!filename) return;
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  currentAudio = new Audio(filename);
+  currentAudio.play().catch(() => {
+    // Файл ещё не загружен — кнопка просто не сработает, без ошибки
+  });
+}
+
+function stopAudio() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+}
+
+// =============================================
+// ЗВУКОВЫЕ СИГНАЛЫ (тоны)
+// =============================================
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playClick() {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.08);
+  } catch(e) {}
+}
+
+function playCorrect() {
+  try {
+    const ctx = getAudioCtx();
+    [523, 659, 784].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      const t = ctx.currentTime + i * 0.13;
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(0.22, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+      osc.start(t); osc.stop(t + 0.3);
+    });
+  } catch(e) {}
+}
+
+function playWrong() {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(320, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.35);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.35);
+  } catch(e) {}
+}
+
+// =============================================
+// МЕТКИ ТИПОВ ВОПРОСОВ
+// =============================================
+const typeLabels = {
+  theory:      { label: "📖 Теория",      color: "#3498db" },
+  recognition: { label: "🔍 Распознавание", color: "#9b59b6" },
+  trap:        { label: "⚠️ Ловушка",     color: "#e67e22" },
+  ayah:        { label: "📜 Аят",         color: "#2ecc71" },
+};
+
+// =============================================
+// ЛОГИКА ВИКТОРИНЫ
+// =============================================
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function loadQuestion() {
+  const q = questions[current];
+  answered = false;
+  stopAudio();
+
+  // Тип вопроса
+  const typeInfo = typeLabels[q.type] || { label: "", color: "#fff" };
+  document.getElementById('questionNum').innerHTML =
+    `Вопрос ${current + 1} из ${questions.length} &nbsp;
+     <span style="background:${typeInfo.color}22;color:${typeInfo.color};border:1px solid ${typeInfo.color}44;border-radius:8px;padding:2px 10px;font-size:0.72rem;vertical-align:middle;">${typeInfo.label}</span>`;
+
+  document.getElementById('questionText').textContent = q.text;
+  document.getElementById('arabicText').textContent = q.arabic || '';
+  document.getElementById('hintText').textContent = q.hint ? `💡 ${q.hint}` : '';
+
+  // Кнопка 🔊 — показываем только если есть MP3
+  const speakBtn = document.getElementById('speakBtn');
+  speakBtn.style.display = q.audio ? 'flex' : 'none';
+
+  const feedback = document.getElementById('feedback');
+  feedback.className = 'feedback';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  const letters = ['А', 'Б', 'В', 'Г'];
+  const shuffled = shuffle(q.options);
+  shuffled.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt.text}`;
+    btn.onclick = () => selectAnswer(btn, opt.correct, q.explain, shuffled);
+    area.appendChild(btn);
+  });
+
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+}
+
+function speakQuestion() {
+  const q = questions[current];
+  if (q.audio) playQuestionAudio(q.audio);
+}
+
+function selectAnswer(btn, isCorrect, explain, shuffled) {
+  if (answered) return;
+  answered = true;
+  stopAudio();
+  playClick();
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    const optText = b.textContent.slice(1).trim();
+    const opt = shuffled.find(o => o.text === optText);
+    if (opt && opt.correct) b.classList.add('correct');
+  });
+
+  const feedback = document.getElementById('feedback');
+  const fbMain = document.getElementById('feedbackMain');
+  const fbDetail = document.getElementById('feedbackDetail');
+
+  if (isCorrect) {
+    correct++;
+    btn.classList.add('correct');
+    feedback.className = 'feedback correct-fb show';
+    fbMain.textContent = '✅ Верно! Отличная работа!';
+    fbDetail.textContent = explain;
+    document.getElementById('scoreCorrect').textContent = correct;
+    setTimeout(playCorrect, 80);
+  } else {
+    wrong++;
+    btn.classList.add('wrong');
+    feedback.className = 'feedback wrong-fb show';
+    fbMain.textContent = '❌ Не совсем. Правильный ответ выделен зелёным.';
+    fbDetail.textContent = explain;
+    document.getElementById('scoreWrong').textContent = wrong;
+    setTimeout(playWrong, 80);
+  }
+
+  document.getElementById('scoreTotal').textContent = current + 1;
+  document.getElementById('nextBtn').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) {
+    const card = document.getElementById('questionCard');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'slideIn 0.4s ease';
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  stopAudio();
+  document.getElementById('quizArea').style.display = 'none';
+  const rs = document.getElementById('resultScreen');
+  rs.classList.add('show');
+
+  const pct = Math.round((correct / questions.length) * 100);
+  document.getElementById('rCorrect').textContent = correct;
+  document.getElementById('rWrong').textContent = wrong;
+
+  let emoji, title, sub;
+  if (pct === 100) {
+    emoji = '🏆'; title = 'Превосходно!';
+    sub = 'Ты отлично знаешь правило Идгам Мима!\nМашааллах, так держать!';
+  } else if (pct >= 70) {
+    emoji = '⭐'; title = 'Молодец!';
+    sub = 'Хороший результат! Повтори те вопросы, где были ошибки.';
+  } else if (pct >= 50) {
+    emoji = '📖'; title = 'Неплохо!';
+    sub = 'Основу ты понял. Пройди ещё раз — и всё встанет на место!';
+  } else {
+    emoji = '💪'; title = 'Продолжай учиться!';
+    sub = 'Не переживай — правило простое. Повтори урок и попробуй снова!';
+  }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultSub').textContent = sub;
+}
+
+function restartQuiz() {
+  current = 0; correct = 0; wrong = 0;
+  document.getElementById('scoreCorrect').textContent = 0;
+  document.getElementById('scoreWrong').textContent = 0;
+  document.getElementById('scoreTotal').textContent = 0;
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('quizArea').style.display = 'block';
+  loadQuestion();
+}
+
+// Обновляем счётчик "из N"
+document.getElementById('scoreTotal').textContent = 0;
+document.querySelector('.score-label:nth-child(2)') ;
+// Исправим метку "из 7" на "из 10"
+document.querySelectorAll('.score-label').forEach(el => {
+  if (el.textContent.includes('из')) el.textContent = `из ${questions.length}`;
+});
+
+loadQuestion();
+</script>
+</body>
+</html>
