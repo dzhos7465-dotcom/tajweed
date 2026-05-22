@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ихфа Мима — Тест по таджвиду</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<!-- Вставь сюда свой код Google Analytics -->
+
+<style>
+  :root {
+    --bg:     #0f172a;
+    --bg2:    #1e293b;
+    --bg3:    #273449;
+    --card:   #1e2d45;
+    --accent: #f59e0b;
+    --accent2:#fbbf24;
+    --green:  #10b981;
+    --red:    #ef4444;
+    --text:   #f8fafc;
+    --muted:  #94a3b8;
+    --arabic: 'Amiri', 'Scheherazade New', serif;
+    --ui:     'Baloo 2', 'Nunito', sans-serif;
+    --radius: 20px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--ui);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(1.5px 1.5px at 10% 15%, #fff6 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, #fff5 0%, transparent 100%),
+      radial-gradient(2px 2px at 40% 10%, #fff4 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 55%, #fff7 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 70% 20%, #fff5 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 45%, #fff6 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 70%, #fff3 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 80%, #fff5 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 90% 75%, #fff4 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 90%, #fff6 0%, transparent 100%);
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .screen { width: 100%; animation: fadeIn 0.5s ease; }
+  .screen.hidden { display: none !important; }
+
+  @keyframes fadeIn  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pop     { 0%{transform:scale(1)} 40%{transform:scale(1.12)} 100%{transform:scale(1)} }
+  @keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+  @keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes spinRing{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes conffall{ 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(120vh) rotate(720deg);opacity:0} }
+
+  /* ══ START SCREEN ══ */
+  #start-screen {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 30px; gap: 0; text-align: center;
+  }
+
+  .logo-wrap {
+    position: relative;
+    width: 130px; height: 130px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .logo-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 54px;
+    box-shadow: 0 0 40px #f59e0b55;
+    animation: float 3s ease-in-out infinite;
+  }
+  .logo-ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 3px dashed #f59e0b55;
+    animation: spinRing 8s linear infinite;
+  }
+
+  .title-main {
+    font-size: clamp(28px, 7vw, 42px); font-weight: 900;
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1.1; margin-bottom: 6px;
+  }
+  .title-sub {
+    font-size: clamp(14px, 3.5vw, 17px);
+    color: var(--muted); margin-bottom: 28px; line-height: 1.6;
+    max-width: 420px;
+  }
+
+  .rule-card {
+    background: var(--card);
+    border: 1.5px solid #f59e0b33;
+    border-radius: var(--radius);
+    padding: 22px; width: 100%;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    text-align: left;
+  }
+  .rule-card h3 {
+    font-size: 17px; font-weight: 800; color: var(--accent);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .rule-card p { font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+  .rule-example {
+    margin-top: 12px; background: #0f172a88;
+    border-radius: 12px; padding: 10px 14px;
+    font-size: 30px; text-align: center;
+    font-family: var(--arabic); direction: rtl; color: #fbbf24;
+  }
+
+  .btn-start {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 18px 52px; font-size: 20px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    box-shadow: 0 6px 24px #f59e0b55;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-start:hover { transform: scale(1.05); box-shadow: 0 8px 32px #f59e0b88; }
+  .btn-start:active { transform: scale(.97); }
+
+  /* ══ QUIZ SCREEN ══ */
+  #quiz-screen { padding-top: 10px; }
+
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; width: 100%;
+  }
+  .score-pill {
+    background: var(--card); border: 1.5px solid var(--accent);
+    border-radius: 50px; padding: 6px 18px;
+    font-weight: 800; font-size: 16px; color: var(--accent);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .q-counter { font-size: 14px; color: var(--muted); font-weight: 600; }
+
+  .progress-bar-wrap {
+    width: 100%; background: var(--bg3);
+    border-radius: 50px; height: 12px;
+    margin-bottom: 22px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+    border-radius: 50px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+    min-width: 6px;
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1.5px solid #334155;
+    border-radius: var(--radius);
+    padding: 26px 22px 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: border-color .3s;
+  }
+  .question-card.correct { border-color: var(--green); }
+  .question-card.wrong   { border-color: var(--red); }
+
+  .q-label {
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: clamp(15px, 4vw, 18px); font-weight: 800;
+    color: #e2e8f0; margin-bottom: 16px; line-height: 1.5;
+  }
+
+  .ayah-text {
+    font-family: var(--arabic);
+    font-size: clamp(26px, 7vw, 36px);
+    direction: rtl; text-align: center;
+    line-height: 1.9; color: #f1f5f9;
+    margin-bottom: 16px; padding: 10px;
+    background: #0f172a66; border-radius: 12px;
+  }
+
+  .audio-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #1e3a5f; border: 1.5px solid #3b82f6;
+    color: #93c5fd; border-radius: 50px;
+    padding: 9px 22px; font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: var(--ui);
+    transition: background .2s, transform .15s;
+    margin: 0 auto 16px;
+    width: fit-content;
+  }
+  .audio-btn:hover { background: #1e40af; transform: scale(1.04); }
+  .audio-btn.playing { background: #1e40af; }
+  .audio-btn:disabled { opacity: .4; cursor: default; transform: none; }
+
+  .options-wrap {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .opt-btn {
+    background: #1a2744;
+    border: 2px solid #334155;
+    border-radius: 14px; padding: 14px 18px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: var(--ui);
+    color: var(--text); text-align: left;
+    transition: background .2s, border-color .2s, transform .15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .opt-btn:hover:not(:disabled) {
+    background: var(--card); border-color: var(--accent);
+    transform: scale(1.01);
+  }
+  .opt-btn:disabled { cursor: default; opacity: .6; }
+
+  .opt-letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #273449; display: flex; align-items: center;
+    justify-content: center; font-size: 13px; font-weight: 900;
+    flex-shrink: 0; color: var(--muted);
+  }
+
+  .opt-btn.opt-correct {
+    background: #064e3b !important; border-color: var(--green) !important;
+    color: #6ee7b7 !important; animation: pop .3s ease;
+  }
+  .opt-btn.opt-correct .opt-letter { background: var(--green); color: #fff; }
+
+  .opt-btn.opt-wrong {
+    background: #7f1d1d !important; border-color: var(--red) !important;
+    color: #fca5a5 !important; animation: shake .4s ease;
+  }
+  .opt-btn.opt-wrong .opt-letter { background: var(--red); color: #fff; }
+
+  .opt-btn.opt-show {
+    background: #064e3b55 !important; border-color: var(--green) !important;
+    color: #6ee7b7 !important;
+  }
+  .opt-btn.opt-show .opt-letter { background: var(--green); color: #fff; }
+
+  .feedback-box {
+    margin-top: 16px; border-radius: 14px; padding: 14px 18px;
+    font-size: 14px; line-height: 1.7; display: none;
+    animation: fadeIn .35s ease;
+  }
+  .feedback-box.correct { background: #064e3b55; border: 1.5px solid var(--green); color: #6ee7b7; }
+  .feedback-box.wrong   { background: #7f1d1d33; border: 1.5px solid var(--red); color: #fca5a5; }
+  .feedback-title { font-weight: 800; font-size: 15px; margin-bottom: 5px; }
+
+  .btn-next {
+    display: none; width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff; border: none; border-radius: 16px;
+    padding: 16px; font-size: 18px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    margin-top: 16px; box-shadow: 0 4px 20px #3b82f655;
+    transition: transform .15s;
+  }
+  .btn-next:hover { transform: scale(1.02); }
+  .btn-next:active { transform: scale(.98); }
+
+  /* ══ RESULT SCREEN ══ */
+  #result-screen {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 30px; gap: 20px; text-align: center;
+  }
+
+  .result-emoji {
+    font-size: 80px;
+    animation: float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 6px 16px #f59e0b88);
+  }
+  .result-title {
+    font-size: clamp(26px, 7vw, 36px); font-weight: 900;
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .result-score-box {
+    background: var(--card); border: 2px solid var(--accent);
+    border-radius: var(--radius); padding: 24px 44px;
+    box-shadow: var(--shadow);
+  }
+  .result-score-num { font-size: 64px; font-weight: 900; color: var(--accent); line-height: 1; }
+  .result-score-lbl { font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .result-stars { font-size: 34px; }
+  .result-msg {
+    font-size: 16px; font-weight: 700; color: #e2e8f0;
+    line-height: 1.6; max-width: 380px;
+  }
+
+  .btn-restart {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 16px 48px; font-size: 18px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    box-shadow: 0 6px 24px #f59e0b55;
+    transition: transform .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-restart:hover { transform: scale(1.05); }
+
+  .conf {
+    position: fixed; pointer-events: none; z-index: 999;
+    border-radius: 3px; animation: conffall linear forwards;
+  }
+
+  @media (max-width: 420px) {
+    .ayah-text { font-size: 22px; }
+    .opt-btn { font-size: 14px; padding: 12px 14px; }
+    .result-score-num { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="container">
+
+  <!-- ══ START ══ -->
+  <div id="start-screen" class="screen">
+    <div class="logo-wrap">
+      <div class="logo-circle">🫧</div>
+      <div class="logo-ring"></div>
+    </div>
+    <div class="title-main">Ихфа Мима</div>
+    <div class="title-sub">Мини-тест по таджвиду • 10 вопросов</div>
+
+    <div class="rule-card">
+      <h3>⚡ Правило</h3>
+      <p>
+        Если после <b>мима с сукуном</b> (<b>مۡ</b>) идёт буква <b>ب</b>,
+        мим читается <b>скрыто</b> с носовым звуком (гунной).
+        Это правило называется <b>ихфа мима</b>.
+      </p>
+      <div class="rule-example">مۡ + ب</div>
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">
+      <span>🚀</span> Начать тест!
+    </button>
+  </div>
+
+  <!-- ══ QUIZ ══ -->
+  <div id="quiz-screen" class="screen hidden">
+    <div class="top-bar">
+      <div class="score-pill">⭐ <span id="score-display">0</span></div>
+      <div class="q-counter">Вопрос <span id="q-num">1</span> из 10</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <div class="q-label">📝 Вопрос</div>
+      <div class="question-text" id="question-text"></div>
+      <div class="ayah-text" id="ayah-text" style="display:none"></div>
+      <button class="audio-btn" id="audio-btn" onclick="playAudio()" style="display:none">
+        <span>🔊</span> <span id="audio-label">Воспроизвести</span>
+      </button>
+      <div class="options-wrap" id="options-wrap"></div>
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div id="feedback-body"></div>
+      </div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()"></button>
+    </div>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div id="result-screen" class="screen hidden">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-stars" id="result-stars"></div>
+    <div class="result-score-box">
+      <div class="result-score-num"><span id="final-score">0</span>/10</div>
+      <div class="result-score-lbl">правильных ответов</div>
+    </div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Пройти снова</button>
+  </div>
+
+</div>
+<script>
+// ══════════════════════════════
+// ВОПРОСЫ
+// ══════════════════════════════
+const ALL_QUESTIONS = [
+  {
+    q: "Перед какой буквой мим читается скрыто?",
+    ayah: null,
+    audio: // "audio-ikhfa/q1.mp3"
+    opts: ["بَ", "مَ", "وَ"],
+    ans: 0,
+    expl: "Ихфа мима происходит только перед буквой ب."
+  },
+  {
+    q: "Как называется это правило?",
+    ayah: "مۡ + ب",
+    audio: // "audio-ikhfa/q2.mp3"
+    opts: ["Идгам мима", "Ихфа мима", "Изхар мима"],
+    ans: 1,
+    expl: "Когда после مۡ идёт буква ب — это ихфа мима (скрытое чтение)."
+  },
+  {
+    q: "Как читается мим при ихфа мима?",
+    ayah: null,
+    audio: // "audio-ikhfa/q3.mp3"
+    opts: ["Явно и чётко", "Скрыто с носовым звуком", "Сливается полностью"],
+    ans: 1,
+    expl: "При ихфа мима мим читается скрыто с носовым звуком (гунной)."
+  },
+  {
+    q: "При ихфа мима, кроме скрытого чтения, что ещё делается?",
+    ayah: null,
+    audio: // "audio-ikhfa/q4.mp3"
+    opts: ["Читается с носовым звуком", "Мим исчезает полностью", "Мим удваивается"],
+    ans: 0,
+    expl: "При ихфа мима мим читается скрыто И с носовым звуком — оба условия вместе."
+  },
+  {
+    q: "Есть ли здесь ихфа мима?",
+    ayah: "هُمۡ بِـهَا",
+    audio: // "audio-ikhfa/q5.mp3"
+    opts: ["Да — مۡ перед ب", "Нет — это идгам", "Нет — нет правила"],
+    ans: 0,
+    expl: "هُمۡ + بِـهَا — мим с сукуном перед ب, это ихфа мима."
+  },
+  {
+    q: "Есть ли здесь ихфа мима?",
+    ayah: "لَهُم مَّا",
+    audio: // "audio-ikhfa/q6.mp3"
+    opts: ["Да — перед ب", "Нет — это идгам мима", "Нет — нет مۡ"],
+    ans: 1,
+    expl: "После مۡ идёт буква م, а не ب — это идгам мима, а не ихфа."
+  },
+  {
+    q: "Есть ли здесь ихфа мима?",
+    ayah: "هُمۡ فِـيـهَا",
+    audio: // "audio-ikhfa/q7.mp3"
+    opts: ["Да", "Нет — после مۡ стоит ف", "Нет — нет гунны"],
+    ans: 1,
+    expl: "После مۡ идёт буква ف, а не ب — поэтому ихфа мима здесь нет."
+  },
+  {
+    q: "Есть ли здесь ихфа мима?",
+    ayah: "أَنتُم بِهِ",
+    audio: // "audio-ikhfa/q8.mp3"
+    opts: ["Да", "Нет — это идгам", "Нет — нет مۡ"],
+    ans: 0,
+    expl: "أَنتُم + بِهِ — мим с сукуном перед ب, это ихфа мима."
+  },
+  {
+    q: "Есть ли здесь ихфа мима?",
+    ayah: "تَرۡمِيهِم بِـحِـجَارَةٍ",
+    audio: // "audio-ikhfa/q9.mp3"
+    opts: ["Да", "Нет — это изхар", "Нет — нет ب"],
+    ans: 0,
+    expl: "هِم + بِـحِـجَارَةٍ — мим с сукуном перед ب, это ихфа мима."
+  },
+  {
+    q: "Чем отличается ихфа мима от идгам мима?",
+    ayah: null,
+    audio: // "audio-ikhfa/q10.mp3"
+    opts: [
+      "Ихфа перед ب, идгам перед م",
+      "Они одинаковые",
+      "Ихфа без гунны"
+    ],
+    ans: 0,
+    expl: "Ихфа мима — скрытое чтение перед ب. Идгам мима — слияние перед م. Оба с гунной."
+  }
+];
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let questions = [];
+let current   = 0;
+let score     = 0;
+let answered  = false;
+const LETTERS = ['А', 'Б', 'В'];
+
+// ══════════════════════════════
+// QUIZ LOGIC
+// ══════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS);
+  current = 0; score = 0; answered = false;
+  showScreen('quiz-screen');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[current];
+
+  document.getElementById('progress-bar').style.width = (current/10*100)+'%';
+  document.getElementById('q-num').textContent = current+1;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('question-text').textContent = q.q;
+
+  const ayahEl = document.getElementById('ayah-text');
+  if (q.ayah) {
+    ayahEl.textContent = q.ayah;
+    ayahEl.style.display = 'block';
+  } else {
+    ayahEl.style.display = 'none';
+  }
+
+  // Audio button
+  const audioBtn = document.getElementById('audio-btn');
+  audioBtn.style.display = q.audio ? 'flex' : 'none';
+  audioBtn.classList.remove('playing');
+  document.getElementById('audio-label').textContent = 'Воспроизвести';
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+  // Options
+  const wrap = document.getElementById('options-wrap');
+  wrap.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${LETTERS[i]}</span>${opt}`;
+    btn.onclick = () => answer(i);
+    wrap.appendChild(btn);
+  });
+
+  // Reset card
+  document.getElementById('question-card').className = 'question-card';
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'none';
+  fb.className = 'feedback-box';
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[current];
+  const correct = idx === q.ans;
+  const btns = document.querySelectorAll('.opt-btn');
+
+  btns.forEach(b => b.disabled = true);
+  btns[idx].classList.add(correct ? 'opt-correct' : 'opt-wrong');
+  if (!correct) btns[q.ans].classList.add('opt-show');
+
+  document.getElementById('question-card').classList.add(correct ? 'correct' : 'wrong');
+
+  if (correct) { score++; playTone('success'); spawnConfetti(); }
+  else playTone('error');
+
+  document.getElementById('score-display').textContent = score;
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('feedback-title').textContent = correct ? '✅ Правильно!' : '❌ Неправильно';
+  document.getElementById('feedback-body').textContent = q.expl;
+  fb.style.display = 'block';
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.display = 'block';
+  btnNext.textContent = current < 9 ? 'Следующий вопрос →' : 'Посмотреть результат 🏆';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= 10) showResult();
+  else {
+    loadQuestion();
+    const card = document.getElementById('question-card');
+    card.style.animation = 'none';
+    requestAnimationFrame(() => { card.style.animation = 'fadeIn .4s ease'; });
+  }
+}
+
+// ══════════════════════════════
+// RESULT
+// ══════════════════════════════
+function showResult() {
+  document.getElementById('final-score').textContent = score;
+  const stars = Math.round((score/10)*5);
+  document.getElementById('result-stars').textContent = '⭐'.repeat(stars)+'☆'.repeat(5-stars);
+
+  let emoji, title, msg;
+  if (score === 10) {
+    emoji='🏆'; title='МашаАллах! Отлично!';
+    msg='Ты ответил правильно на все 10 вопросов! Продолжай так же! 🌟';
+  } else if (score >= 8) {
+    emoji='🌟'; title='Замечательно!';
+    msg='Почти всё правильно! Ещё немного практики — и будет идеально! 💪';
+  } else if (score >= 6) {
+    emoji='😊'; title='Хорошая работа!';
+    msg='Неплохой результат! Повтори правило и попробуй снова! 📖';
+  } else if (score >= 4) {
+    emoji='💪'; title='Продолжай учиться!';
+    msg='Перечитай правило и пройди тест ещё раз — с каждым разом лучше! 🌱';
+  } else {
+    emoji='📚'; title='Не сдавайся!';
+    msg='Вернись к правилу ихфа мима и попробуй снова. Ты справишься! 🤍';
+  }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+  if (score >= 8) spawnConfetti(60);
+  showScreen('result-screen');
+}
+
+function restartQuiz() { showScreen('start-screen'); }
+
+// ══════════════════════════════
+// HELPERS
+// ══════════════════════════════
+let currentAudio = null;
+
+function playAudio() {
+  const q = questions[current];
+  if (!q.audio) return;
+  const btn = document.getElementById('audio-btn');
+  if (currentAudio && !currentAudio.paused) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    btn.classList.remove('playing');
+    document.getElementById('audio-label').textContent = 'Воспроизвести';
+    return;
+  }
+  currentAudio = new Audio(q.audio);
+  btn.classList.add('playing');
+  document.getElementById('audio-label').textContent = 'Воспроизводится...';
+  currentAudio.play().catch(()=>{});
+  currentAudio.onended = () => {
+    btn.classList.remove('playing');
+    document.getElementById('audio-label').textContent = 'Воспроизвести';
+  };
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
+  el.style.animation = 'none';
+  requestAnimationFrame(() => { el.style.animation = 'fadeIn .5s ease'; });
+}
+
+function playTone(type) {
+  try {
+    const snd = new Audio(type === 'success' ? 'audio/success.wav' : 'audio/error.wav');
+    snd.play().catch(()=>{});
+  } catch(e) {}
+}
+
+function spawnConfetti(n=28) {
+  const cols = ['#f59e0b','#ef4444','#10b981','#3b82f6','#8b5cf6','#ec4899','#fbbf24'];
+  for (let i=0; i<n; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'conf';
+      c.style.cssText = `
+        left:${Math.random()*100}vw; top:-20px;
+        background:${cols[Math.floor(Math.random()*cols.length)]};
+        width:${6+Math.random()*8}px; height:${8+Math.random()*10}px;
+        animation-duration:${1.5+Math.random()*2}s;
+        animation-delay:${Math.random()*.5}s;
+        transform:rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, i*50);
+  }
+}
+</script>
+</body>
+</html>
