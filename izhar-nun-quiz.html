@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Изхар Нуна — Викторина по таджвиду">
+<meta property="og:description" content="Закрепляющая викторина для детей по правилу изхар нуна. 12 вопросов!">
+<meta property="og:image" content="https://dzhos7465-dotcom.github.io/tajweed/preview.png">
+<meta property="og:url" content="https://dzhos7465-dotcom.github.io/tajweed/izhar-nun-quiz.html">
+<meta name="theme-color" content="#0f172a">
+<title>Изхар Нуна — Викторина по таджвиду</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E771859ZNN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E771859ZNN');
+</script>
+
+<style>
+  :root {
+    --bg:     #0f172a;
+    --bg2:    #1e293b;
+    --bg3:    #273449;
+    --card:   #1e2d45;
+    --accent: #818cf8;
+    --accent2:#a5b4fc;
+    --green:  #10b981;
+    --red:    #ef4444;
+    --gold:   #f59e0b;
+    --text:   #f8fafc;
+    --muted:  #94a3b8;
+    --arabic: 'Amiri', 'Scheherazade New', serif;
+    --ui:     'Baloo 2', 'Nunito', sans-serif;
+    --radius: 20px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--ui);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(1.5px 1.5px at 10% 15%, #fff6 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, #fff5 0%, transparent 100%),
+      radial-gradient(2px 2px at 40% 10%, #fff4 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 55%, #fff7 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 70% 20%, #fff5 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 45%, #fff6 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 70%, #fff3 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 80%, #fff5 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 90% 75%, #fff4 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 90%, #fff6 0%, transparent 100%);
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .screen { width: 100%; animation: fadeIn 0.5s ease; }
+  .screen.hidden { display: none !important; }
+
+  @keyframes fadeIn  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pop     { 0%{transform:scale(1)} 40%{transform:scale(1.1)} 100%{transform:scale(1)} }
+  @keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+  @keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes spinRing{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes conffall{ 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(120vh) rotate(720deg);opacity:0} }
+  @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  /* ══ START SCREEN ══ */
+  #start-screen {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 30px; gap: 0; text-align: center;
+  }
+
+  .logo-wrap {
+    position: relative;
+    width: 130px; height: 130px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .logo-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #6366f1, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 54px;
+    box-shadow: 0 0 40px #818cf855;
+    animation: float 3s ease-in-out infinite;
+  }
+  .logo-ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 3px dashed #818cf855;
+    animation: spinRing 8s linear infinite;
+  }
+
+  .title-main {
+    font-size: clamp(28px, 7vw, 42px); font-weight: 900;
+    background: linear-gradient(135deg, #818cf8, #a5b4fc);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1.1; margin-bottom: 6px;
+  }
+  .title-sub {
+    font-size: clamp(14px, 3.5vw, 17px);
+    color: var(--muted); margin-bottom: 28px; line-height: 1.6;
+    max-width: 420px;
+  }
+
+  .rule-card {
+    background: var(--card);
+    border: 1.5px solid #818cf833;
+    border-radius: var(--radius);
+    padding: 22px; width: 100%;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    text-align: left;
+  }
+  .rule-card h3 {
+    font-size: 17px; font-weight: 800; color: var(--accent);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .rule-card p { font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+
+  .letters-row {
+    display: flex; justify-content: center; gap: 10px;
+    margin-top: 14px; flex-wrap: wrap;
+    direction: rtl;
+  }
+  .letter-badge {
+    background: #0f172a88;
+    border: 1.5px solid #818cf855;
+    border-radius: 12px; padding: 8px 14px;
+    font-family: var(--arabic); font-size: 28px;
+    color: var(--accent2); line-height: 1.4;
+  }
+
+  .btn-start {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 18px 52px; font-size: 20px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    box-shadow: 0 6px 24px #818cf855;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-start:hover { transform: scale(1.05); box-shadow: 0 8px 32px #818cf888; }
+  .btn-start:active { transform: scale(.97); }
+
+  /* ══ QUIZ SCREEN ══ */
+  #quiz-screen { padding-top: 10px; }
+
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; width: 100%;
+  }
+  .score-pill {
+    background: var(--card); border: 1.5px solid var(--accent);
+    border-radius: 50px; padding: 6px 18px;
+    font-weight: 800; font-size: 16px; color: var(--accent);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .q-counter { font-size: 14px; color: var(--muted); font-weight: 600; }
+
+  .progress-bar-wrap {
+    width: 100%; background: var(--bg3);
+    border-radius: 50px; height: 12px;
+    margin-bottom: 22px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #818cf8);
+    border-radius: 50px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+    min-width: 6px;
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1.5px solid #334155;
+    border-radius: var(--radius);
+    padding: 26px 22px 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: border-color .3s;
+  }
+  .question-card.correct { border-color: var(--green); }
+  .question-card.wrong   { border-color: var(--red); }
+
+  .q-label {
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: clamp(15px, 4vw, 18px); font-weight: 800;
+    color: #e2e8f0; margin-bottom: 14px; line-height: 1.5;
+  }
+
+  .ayah-text {
+    font-family: var(--arabic);
+    font-size: clamp(26px, 7vw, 38px);
+    direction: rtl; text-align: center;
+    line-height: 1.9; color: #f1f5f9;
+    margin-bottom: 14px; padding: 12px;
+    background: #0f172a66; border-radius: 12px;
+  }
+
+  .ayah-text-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .ayah-audio-btn {
+    position: absolute;
+    top: 50%; right: -14px;
+    transform: translateY(-50%);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #1e3a5f;
+    border: 1.5px solid #3b82f6;
+    color: #93c5fd;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .15s;
+    box-shadow: 0 2px 8px #00000033;
+  }
+  .ayah-audio-btn:hover { background: #1e40af; transform: translateY(-50%) scale(1.1); }
+  .ayah-audio-btn.playing { background: #1e40af; }
+
+  .audio-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: #1e3a5f; border: 1.5px solid #3b82f6;
+    color: #93c5fd; border-radius: 50px;
+    padding: 9px 22px; font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: var(--ui);
+    transition: background .2s, transform .15s;
+    margin-bottom: 16px;
+  }
+  .audio-btn:hover { background: #1e40af; transform: scale(1.04); }
+  .audio-btn.playing { background: #1e40af; animation: pulse 1s infinite; }
+
+  /* YES/NO buttons */
+  .yn-btns {
+    display: flex; gap: 14px; justify-content: center;
+  }
+  .btn-yn {
+    flex: 1; max-width: 200px;
+    padding: 16px 10px;
+    border: 2.5px solid;
+    border-radius: 16px;
+    font-size: 20px; font-weight: 900;
+    cursor: pointer; font-family: var(--ui);
+    transition: transform .15s, box-shadow .15s, background .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-yes { background: #064e3b22; border-color: var(--green); color: var(--green); }
+  .btn-yes:hover:not(:disabled) { background: #064e3b55; transform: scale(1.05); box-shadow: 0 4px 18px #10b98155; }
+  .btn-no  { background: #7f1d1d22; border-color: var(--red); color: var(--red); }
+  .btn-no:hover:not(:disabled)  { background: #7f1d1d55; transform: scale(1.05); box-shadow: 0 4px 18px #ef444455; }
+
+  /* Options */
+  .options-wrap { display: flex; flex-direction: column; gap: 10px; }
+
+  .opt-btn {
+    background: #1a2744;
+    border: 2px solid #334155;
+    border-radius: 14px; padding: 14px 18px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: var(--ui);
+    color: var(--text); text-align: left;
+    transition: background .2s, border-color .2s, transform .15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .opt-btn:hover:not(:disabled) { background: var(--card); border-color: var(--accent); transform: scale(1.01); }
+  .opt-btn:disabled { cursor: default; opacity: .6; }
+
+  .opt-letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #273449; display: flex; align-items: center;
+    justify-content: center; font-size: 13px; font-weight: 900;
+    flex-shrink: 0; color: var(--muted);
+  }
+  .opt-arabic-text { font-family: var(--arabic); font-size: 24px; direction: rtl; line-height: 1.5; }
+
+  .btn-yn:disabled, .opt-btn:disabled { cursor: default; opacity: .55; }
+
+  .btn-yn.sel-correct, .opt-btn.opt-correct {
+    background: #064e3b !important; border-color: var(--green) !important;
+    color: #6ee7b7 !important; animation: pop .3s ease;
+  }
+  .opt-btn.opt-correct .opt-letter { background: var(--green); color: #fff; }
+
+  .btn-yn.sel-wrong, .opt-btn.opt-wrong {
+    background: #7f1d1d !important; border-color: var(--red) !important;
+    color: #fca5a5 !important; animation: shake .4s ease;
+  }
+  .opt-btn.opt-wrong .opt-letter { background: var(--red); color: #fff; }
+
+  .opt-btn.opt-show {
+    background: #064e3b55 !important; border-color: var(--green) !important;
+    color: #6ee7b7 !important;
+  }
+  .opt-btn.opt-show .opt-letter { background: var(--green); color: #fff; }
+  .btn-yn.show-correct { background: #064e3b55 !important; border-color: var(--green) !important; color: #6ee7b7 !important; }
+
+  .feedback-box {
+    margin-top: 16px; border-radius: 14px; padding: 14px 18px;
+    font-size: 14px; line-height: 1.7; display: none;
+    animation: fadeIn .35s ease;
+  }
+  .feedback-box.correct { background: #064e3b55; border: 1.5px solid var(--green); color: #6ee7b7; }
+  .feedback-box.wrong   { background: #7f1d1d33; border: 1.5px solid var(--red); color: #fca5a5; }
+  .feedback-title { font-weight: 800; font-size: 15px; margin-bottom: 5px; }
+
+  .btn-next {
+    display: none; width: 100%;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #fff; border: none; border-radius: 16px;
+    padding: 16px; font-size: 18px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    margin-top: 16px; box-shadow: 0 4px 20px #6366f144;
+    transition: transform .15s;
+  }
+  .btn-next:hover { transform: scale(1.02); }
+  .btn-next:active { transform: scale(.98); }
+
+  /* ══ RESULT SCREEN ══ */
+  #result-screen {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 30px; gap: 20px; text-align: center;
+  }
+
+  .result-emoji {
+    font-size: 80px;
+    animation: float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 6px 16px #818cf888);
+  }
+  .result-title {
+    font-size: clamp(24px, 7vw, 36px); font-weight: 900;
+    background: linear-gradient(135deg, #818cf8, #a5b4fc);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .result-score-box {
+    background: var(--card); border: 2px solid var(--accent);
+    border-radius: var(--radius); padding: 24px 44px; box-shadow: var(--shadow);
+  }
+  .result-score-num { font-size: 64px; font-weight: 900; color: var(--accent); line-height: 1; }
+  .result-score-lbl { font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .result-stars { font-size: 34px; }
+  .result-msg { font-size: 16px; font-weight: 700; color: #e2e8f0; line-height: 1.6; max-width: 380px; }
+
+  .btn-restart {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 16px 48px; font-size: 18px; font-weight: 800;
+    cursor: pointer; font-family: var(--ui);
+    box-shadow: 0 6px 24px #818cf855;
+    transition: transform .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-restart:hover { transform: scale(1.05); }
+
+  .conf { position: fixed; pointer-events: none; z-index: 999; border-radius: 3px; animation: conffall linear forwards; }
+
+  @media (max-width: 420px) {
+    .ayah-text { font-size: 22px; }
+    .opt-btn { font-size: 14px; padding: 12px 14px; }
+    .result-score-num { font-size: 52px; }
+    .yn-btns { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="container">
+
+  <!-- ══ START ══ -->
+  <div id="start-screen" class="screen">
+    <div class="logo-wrap">
+      <div class="logo-circle">✨</div>
+      <div class="logo-ring"></div>
+    </div>
+    <div class="title-main">Изхар Нуна</div>
+    <div class="title-sub">Мини-тест по таджвиду • 12 вопросов</div>
+
+    <div class="rule-card">
+      <h3>⚡ Правило</h3>
+      <p>
+        <b>Изхар Нуна</b> — это ясное и чёткое чтение нуна с сукуном
+        или танвина, когда после них приходит одна из шести букв:
+      </p>
+      <div class="letters-row">
+        <div class="letter-badge">ء</div>
+        <div class="letter-badge">ه</div>
+        <div class="letter-badge">ع</div>
+        <div class="letter-badge">ح</div>
+        <div class="letter-badge">غ</div>
+        <div class="letter-badge">خ</div>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">
+      <span>🚀</span> Начать тест!
+    </button>
+  </div>
+
+  <!-- ══ QUIZ ══ -->
+  <div id="quiz-screen" class="screen hidden">
+    <div class="top-bar">
+      <div class="score-pill">⭐ <span id="score-display">0</span></div>
+      <div class="q-counter">Вопрос <span id="q-num">1</span> из 12</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <div class="q-label">📝 Вопрос</div>
+      <div class="question-text" id="question-text"></div>
+      <div class="ayah-text-wrap" id="ayah-text-wrap" style="display:none; position:relative;">
+        <div class="ayah-text" id="ayah-text"></div>
+        <button class="ayah-audio-btn" id="audio-btn" onclick="playAudio()" title="Воспроизвести">
+          <span id="audio-label">🔉</span>
+        </button>
+      </div>
+
+      <div id="answers-wrap"></div>
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div id="feedback-body"></div>
+      </div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()"></button>
+    </div>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div id="result-screen" class="screen hidden">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-stars" id="result-stars"></div>
+    <div class="result-score-box">
+      <div class="result-score-num"><span id="final-score">0</span>/12</div>
+      <div class="result-score-lbl">правильных ответов</div>
+    </div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Пройти снова</button>
+  </div>
+
+</div>
+<script>
+// ══════════════════════════════
+// ТИПЫ ВОПРОСОВ:
+// yn    — Да / Нет
+// opts  — варианты ответа (текст)
+// aopts — варианты ответа (арабский текст)
+// ══════════════════════════════
+const ALL_QUESTIONS = [
+  // 1. Теория
+  {
+    type: 'opts',
+    q: 'Что означает «Изхар»?',
+    ayah: null,
+    audio: 'audio/in1.MP3',
+    opts: ['Скрытое чтение', 'Ясное и чёткое чтение', 'Слияние букв'],
+    ans: 1,
+    expl: 'Изхар — это ясное и чёткое чтение. При изхар нуна нун читается чётко и явно.'
+  },
+  // 2. Теория
+  {
+    type: 'opts',
+    q: 'После каких букв нун читается ясно?',
+    ayah: null,
+    audio: 'audio/in2.MP3',
+    opts: ['После б и м', 'После ء ه ع ح غ خ', 'После любой буквы'],
+    ans: 1,
+    expl: 'Шесть букв изхара: ء ه ع ح غ خ. Если после нуна с сукуном или танвина идёт одна из них — нун читается ясно.'
+  },
+  // 3. Да/Нет — Да
+  {
+    type: 'yn',
+    q: 'Есть ли здесь изхар нуна?',
+    ayah: 'مِنۡهُمۡ',
+    audio: 'audio/in3.MP3',
+    ans: true,
+    expl: 'مِنۡ + هُمۡ — после нуна с сукуном идёт буква ه, это буква изхара. Нун читается ясно!'
+  },
+  // 4. Да/Нет — Нет (после نۡ идёт ب)
+  {
+    type: 'yn',
+    q: 'Есть ли здесь изхар нуна?',
+    ayah: 'مِنۡ بَعۡدِ',
+    audio: 'audio/in4.MP3',
+    ans: false,
+    expl: 'مِنۡ + بَعۡدِ — после نۡ идёт буква ب. Буква ب не входит в шесть букв изхара, поэтому здесь нет изхара нуна.'
+  },
+  // 5. Найди букву изхара
+  {
+    type: 'aopts',
+    q: 'Какая буква изхара встретилась в примере?',
+    ayah: 'أَنۡعَمۡتَ',
+    audio: 'audio/in5.MP3',
+    opts: ['م', 'ع', 'ب', 'ن'],
+    ans: 1,
+    expl: 'أَنۡ + عَمۡتَ — после нуна с сукуном идёт буква ع. Она входит в шесть букв изхара!'
+  },
+  // 6. Нун с сукуном или танвин?
+  {
+    type: 'opts',
+    q: 'В чём здесь изхар нуна — в нуне с сукуном или в танвине?',
+    ayah: 'غَفُورٌ حَلِيمٌ',
+    audio: 'audio/in6.MP3',
+    opts: ['В нуне с сукуном', 'В танвине', 'Здесь нет изхара'],
+    ans: 1,
+    expl: 'غَفُورٌ заканчивается на танвин, после которого идёт ح — буква изхара. Это изхар танвина!'
+  },
+  // 7. Найди пример с изхар нуна
+  {
+    type: 'aopts',
+    q: 'Найди пример где есть изхар нуна',
+    ayah: null,
+    audio: 'audio/in7.MP3',
+    opts: ['مِنۡ بَعۡدِ', 'مِنۡ غَيۡرِ', 'مِنۡ مَّاءٍ'],
+    ans: 1,
+    expl: 'مِنۡ + غَيۡرِ — после نۡ идёт буква غ, она входит в шесть букв изхара. В двух других примерах после نۡ идут буквы ب и م — они не буквы изхара.'
+  },
+  // 8. Найди букву изхара
+  {
+    type: 'aopts',
+    q: 'Какая буква изхара встретилась?',
+    ayah: 'غَاسِقٍ إِذَا',
+    audio: 'audio/in8.MP3',
+    opts: ['غ', 'ذ', 'ء', 'س'],
+    ans: 2,
+    expl: 'غَاسِقٍ + إِذَا — после танвина идёт буква ء (хамза). Это буква изхара!'
+  },
+  // 9. Да/Нет — Нет (после танвина идёт не буква изхара)
+  {
+    type: 'yn',
+    q: 'Есть ли здесь изхар нуна?',
+    ayah: 'مِنۡ مَّاءٍ',
+    audio: 'audio/in9.MP3',
+    ans: false,
+    expl: 'مِنۡ + مَّاءٍ — после نۡ идёт буква م. Буква م не входит в шесть букв изхара, поэтому здесь нет изхара нуна.'
+  },
+  // 10. Выбор правильного объяснения
+  {
+    type: 'opts',
+    q: 'Почему нун читается ясно в примере يَنۡـَٔوۡنَ?',
+    ayah: 'يَنۡـَٔوۡنَ',
+    audio: 'audio/in10.MP3',
+    opts: [
+      'После نۡ идёт буква изхара ء',
+      'После نۡ идёт буква م',
+      'Здесь нет нуна с сукуном'
+    ],
+    ans: 0,
+    expl: 'يَنۡ + ءَوۡنَ — после нуна с сукуном идёт буква ء (хамза). Это одна из шести букв изхара!'
+  },
+  // 11. Аят из урока
+  {
+    type: 'yn',
+    q: 'Есть ли здесь изхар нуна?',
+    ayah: 'وَٱنۡحَرۡ',
+    audio: 'audio/in11.MP3',
+    ans: true,
+    expl: 'وَٱنۡ + حَرۡ — после нуна с сукуном идёт буква ح, это буква изхара. Нун читается ясно!'
+  },
+  // 12. Аят из урока
+  {
+    type: 'opts',
+    q: 'Какое правило в слове تَنۡهَرۡ?',
+    ayah: 'فَلَا تَنۡهَرۡ',
+    audio: 'audio/in12.MP3',
+    opts: ['Изхар нуна — после نۡ идёт ه', 'Ихфа нуна', 'Идгам нуна'],
+    ans: 0,
+    expl: 'تَنۡ + هَرۡ — после нуна с сукуном идёт буква ه, одна из шести букв изхара. Нун читается ясно!'
+  }
+];
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+const TOTAL     = 12;
+const LETTERS   = ['А', 'Б', 'В', 'Г'];
+let questions   = [];
+let current     = 0;
+let score       = 0;
+let answered    = false;
+let currentAudio = null;
+
+// ══════════════════════════════
+// QUIZ LOGIC
+// ══════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS);
+  current = 0; score = 0; answered = false;
+  showScreen('quiz-screen');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[current];
+
+  document.getElementById('progress-bar').style.width = (current/TOTAL*100)+'%';
+  document.getElementById('q-num').textContent = current+1;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('question-text').textContent = q.q;
+
+  // Ayah
+  const ayahEl = document.getElementById('ayah-text');
+  const ayahWrap = document.getElementById('ayah-text-wrap');
+  if (q.ayah) {
+    ayahEl.textContent = q.ayah;
+    ayahWrap.style.display = 'block';
+  } else {
+    ayahWrap.style.display = 'none';
+  }
+
+  // Audio — show only with ayah
+  const audioBtn = document.getElementById('audio-btn');
+  if (audioBtn) {
+    audioBtn.classList.remove('playing');
+    document.getElementById('audio-label').textContent = '🔊';
+  }
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+  // Answers
+  const wrap = document.getElementById('answers-wrap');
+  wrap.innerHTML = '';
+
+  if (q.type === 'yn') {
+    wrap.className = 'yn-btns';
+    const btnY = document.createElement('button');
+    btnY.className = 'btn-yn btn-yes';
+    btnY.innerHTML = '✅ Да';
+    btnY.onclick = () => answerYN(true);
+    const btnN = document.createElement('button');
+    btnN.className = 'btn-yn btn-no';
+    btnN.innerHTML = '❌ Нет';
+    btnN.onclick = () => answerYN(false);
+    wrap.appendChild(btnY);
+    wrap.appendChild(btnN);
+  } else {
+    wrap.className = 'options-wrap';
+    const isArabic = q.type === 'aopts';
+    q.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.innerHTML = `<span class="opt-letter">${LETTERS[i]}</span><span class="${isArabic ? 'opt-arabic-text' : ''}">${opt}</span>`;
+      btn.onclick = () => answerOpt(i);
+      wrap.appendChild(btn);
+    });
+  }
+
+  // Reset
+  document.getElementById('question-card').className = 'question-card';
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'none'; fb.className = 'feedback-box';
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function answerYN(userAns) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const correct = userAns === q.ans;
+  const btns = document.querySelectorAll('.btn-yn');
+
+  btns.forEach(b => b.disabled = true);
+  if (userAns) btns[0].classList.add(correct ? 'sel-correct' : 'sel-wrong');
+  else         btns[1].classList.add(correct ? 'sel-correct' : 'sel-wrong');
+  if (!correct) {
+    if (q.ans) btns[0].classList.add('show-correct');
+    else       btns[1].classList.add('show-correct');
+  }
+  finishAnswer(correct, q.expl);
+}
+
+function answerOpt(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const correct = idx === q.ans;
+  const btns = document.querySelectorAll('.opt-btn');
+
+  btns.forEach(b => b.disabled = true);
+  btns[idx].classList.add(correct ? 'opt-correct' : 'opt-wrong');
+  if (!correct) btns[q.ans].classList.add('opt-show');
+  finishAnswer(correct, q.expl);
+}
+
+function finishAnswer(correct, expl) {
+  document.getElementById('question-card').classList.add(correct ? 'correct' : 'wrong');
+  if (correct) { score++; playTone('success'); spawnConfetti(); }
+  else playTone('error');
+  document.getElementById('score-display').textContent = score;
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('feedback-title').textContent = correct ? '✅ Правильно!' : '❌ Неправильно';
+  document.getElementById('feedback-body').textContent = expl;
+  fb.style.display = 'block';
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.style.display = 'block';
+  btnNext.textContent = current < TOTAL-1 ? 'Следующий вопрос →' : 'Посмотреть результат 🏆';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= TOTAL) showResult();
+  else {
+    loadQuestion();
+    const card = document.getElementById('question-card');
+    card.style.animation = 'none';
+    requestAnimationFrame(() => { card.style.animation = 'fadeIn .4s ease'; });
+  }
+}
+
+// ══════════════════════════════
+// AUDIO
+// ══════════════════════════════
+function playAudio() {
+  const q = questions[current];
+  if (!q.audio) return;
+  const btn = document.getElementById('audio-btn');
+  if (currentAudio && !currentAudio.paused) {
+    currentAudio.pause(); currentAudio.currentTime = 0;
+    btn.classList.remove('playing');
+    document.getElementById('audio-label').textContent = '🔊';
+    return;
+  }
+  currentAudio = new Audio(q.audio);
+  btn.classList.add('playing');
+  document.getElementById('audio-label').textContent = '🔊';
+  currentAudio.play().catch(()=>{});
+  currentAudio.onended = () => {
+    btn.classList.remove('playing');
+    document.getElementById('audio-label').textContent = '🔊';
+  };
+}
+
+// ══════════════════════════════
+// RESULT
+// ══════════════════════════════
+function showResult() {
+  document.getElementById('final-score').textContent = score;
+  const stars = Math.round((score/TOTAL)*5);
+  document.getElementById('result-stars').textContent = '⭐'.repeat(stars)+'☆'.repeat(5-stars);
+
+  let emoji, title, msg;
+  if (score === TOTAL) {
+    emoji='🏆'; title='МашаАллах! Отлично!';
+    msg='Ты ответил правильно на все вопросы! Ты отлично знаешь изхар нуна! 🌟';
+  } else if (score >= 10) {
+    emoji='🌟'; title='Замечательно!';
+    msg='Почти всё правильно! Ещё немного практики — и будет идеально! 💪';
+  } else if (score >= 8) {
+    emoji='😊'; title='Хорошая работа!';
+    msg='Неплохой результат! Повтори правило и попробуй снова! 📖';
+  } else if (score >= 5) {
+    emoji='💪'; title='Продолжай учиться!';
+    msg='Перечитай правило и пройди тест ещё раз — с каждым разом лучше! 🌱';
+  } else {
+    emoji='📚'; title='Не сдавайся!';
+    msg='Вернись к правилу изхар нуна и попробуй снова. Ты справишься! 🤍';
+  }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+  if (score >= 10) spawnConfetti(60);
+  showScreen('result-screen');
+}
+
+function restartQuiz() { showScreen('start-screen'); }
+
+// ══════════════════════════════
+// HELPERS
+// ══════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
+  el.style.animation = 'none';
+  requestAnimationFrame(() => { el.style.animation = 'fadeIn .5s ease'; });
+}
+
+function playTone(type) {
+  try {
+    const snd = new Audio(type === 'success' ? 'audio/success.wav' : 'audio/error.wav');
+    snd.play().catch(()=>{});
+  } catch(e) {}
+}
+
+function spawnConfetti(n=28) {
+  const cols = ['#818cf8','#6366f1','#f59e0b','#10b981','#a78bfa','#fbbf24','#38bdf8'];
+  for (let i=0; i<n; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'conf';
+      c.style.cssText = `
+        left:${Math.random()*100}vw; top:-20px;
+        background:${cols[Math.floor(Math.random()*cols.length)]};
+        width:${6+Math.random()*8}px; height:${8+Math.random()*10}px;
+        animation-duration:${1.5+Math.random()*2}s;
+        animation-delay:${Math.random()*.5}s;
+        transform:rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, i*50);
+  }
+}
+</script>
+</body>
+</html>
