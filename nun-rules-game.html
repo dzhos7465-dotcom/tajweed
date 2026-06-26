@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила нуна — Таджвид для детей</title>
+<style>
+/* ════════════════════════════════════
+   ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ
+════════════════════════════════════ */
+:root {
+  --bg:       #0f172a;
+  --card:     #1e2d45;
+  --card2:    #162035;
+  --border:   #2d4a6e;
+  --izhar:    #2dd4bf;
+  --izhar2:   #99f6e4;
+  --iguna:    #a78bfa;
+  --iguna2:   #ddd6fe;
+  --inoguna:  #f59e0b;
+  --inoguna2: #fde68a;
+  --green:    #10b981;
+  --red:      #ef4444;
+  --text:     #f8fafc;
+  --muted:    #94a3b8;
+  --arabic:   'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+  --ui:       system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r:        18px;
+  --shadow:   0 8px 32px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--ui);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* STARS */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(1.5px 1.5px at 8% 12%, #fff6 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 38%, #fff5 0%, transparent 100%),
+    radial-gradient(2px 2px at 38% 8%,  #fff4 0%, transparent 100%),
+    radial-gradient(1px 1px at 52% 52%, #fff6 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 68% 18%,#fff5 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 42%, #fff4 0%, transparent 100%),
+    radial-gradient(2px 2px at 14% 68%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 78%, #fff5 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 72%,#fff4 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 88%, #fff6 0%, transparent 100%);
+}
+
+/* WRAP */
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* ════════════════════════════════════
+   ЭКРАНЫ
+════════════════════════════════════ */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeUp .45s ease; }
+#s-result.active { display: flex; flex-direction: column; align-items: center; }
+
+@keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pop      { 0%{transform:scale(1)} 45%{transform:scale(1.12)} 100%{transform:scale(1)} }
+@keyframes shake    { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(-8px)} 50%{transform:translateX(8px)} }
+@keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes spin     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes conffall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(540deg);opacity:0} }
+@keyframes slideIn  { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+@keyframes streakPop{ 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+/* ════════════════════════════════════
+   СТАРТОВЫЙ ЭКРАН
+════════════════════════════════════ */
+#s-start { text-align: center; padding-top: 20px; }
+
+.logo-wrap {
+  position: relative; width: 110px; height: 110px;
+  margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+}
+.logo-circle {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, #2dd4bf, #a78bfa, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; box-shadow: 0 0 36px #a78bfa55;
+  animation: float 3s ease-in-out infinite;
+}
+.logo-ring {
+  position: absolute; inset: -6px; border-radius: 50%;
+  border: 3px dashed #a78bfa44;
+  animation: spin 10s linear infinite;
+}
+
+.page-title {
+  font-size: clamp(24px,6vw,38px); font-weight: 900; margin-bottom: 6px;
+  background: linear-gradient(135deg, #2dd4bf, #a78bfa, #f59e0b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-sub { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+
+.rules-preview {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 28px; text-align: left;
+}
+.rule-preview-item {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.rule-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.rule-preview-item.izhar   .rule-dot { background: var(--izhar); }
+.rule-preview-item.iguna   .rule-dot { background: var(--iguna); }
+.rule-preview-item.inoguna .rule-dot { background: var(--inoguna); }
+.rule-preview-name { font-weight: 800; font-size: 15px; margin-bottom: 2px; }
+.rule-preview-item.izhar   .rule-preview-name { color: var(--izhar); }
+.rule-preview-item.iguna   .rule-preview-name { color: var(--iguna); }
+.rule-preview-item.inoguna .rule-preview-name { color: var(--inoguna); }
+.rule-preview-desc { font-size: 13px; color: var(--muted); }
+
+.btn-big {
+  background: linear-gradient(135deg, #2dd4bf, #a78bfa);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 18px 52px; font-size: 20px; font-weight: 800;
+  cursor: pointer; font-family: var(--ui);
+  box-shadow: 0 6px 28px #a78bfa44;
+  transition: transform .15s, box-shadow .15s;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-big:hover  { transform: scale(1.05); }
+.btn-big:active { transform: scale(.97); }
+
+/* ════════════════════════════════════
+   ЧАСТЬ 1 — ВИКТОРИНА
+════════════════════════════════════ */
+#s-quiz { }
+
+.quiz-header { margin-bottom: 18px; }
+.quiz-title { font-size: clamp(18px,5vw,24px); font-weight: 900; margin-bottom: 4px; }
+.quiz-sub   { font-size: 13px; color: var(--muted); }
+
+.progress-wrap { width:100%; background:#273449; border-radius:50px; height:10px; margin-bottom:18px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#2dd4bf,#a78bfa,#f59e0b); border-radius:50px; transition:width .5s; }
+
+.top-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.score-badge {
+  background:var(--card); border:1.5px solid #a78bfa;
+  border-radius:50px; padding:6px 18px;
+  font-weight:800; font-size:15px; color:#a78bfa;
+  display:flex; align-items:center; gap:6px;
+}
+.q-counter { font-size:13px; color:var(--muted); font-weight:600; }
+
+.streak-banner {
+  background: linear-gradient(135deg, #f59e0b33, #ef444433);
+  border: 1.5px solid #f59e0b55;
+  border-radius: 12px; padding: 8px 16px;
+  font-size: 14px; font-weight: 800; color: #fbbf24;
+  text-align: center; margin-bottom: 14px;
+  display: none; animation: streakPop .4s ease;
+}
+.streak-banner.show { display: block; }
+
+.q-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 24px 20px 20px;
+  box-shadow: var(--shadow); margin-bottom: 16px;
+  transition: border-color .3s;
+}
+.q-card.correct { border-color: var(--green); }
+.q-card.wrong   { border-color: var(--red); }
+
+.q-label { font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+.q-arabic {
+  font-family: var(--arabic);
+  font-size: clamp(30px,8vw,46px);
+  direction: rtl; text-align: center;
+  line-height: 1.9; color: #f1f5f9;
+  padding: 14px; background: #0f172a66; border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.answer-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-answer {
+  background: #1a2744; border: 2px solid var(--border);
+  border-radius: 14px; padding: 14px 18px;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: var(--ui); color: var(--text);
+  transition: background .2s, border-color .2s, transform .15s;
+  text-align: left; display: flex; align-items: center; gap: 12px;
+}
+.btn-answer:hover:not(:disabled) { background: var(--card2); transform: scale(1.01); }
+.btn-answer:disabled { cursor: default; opacity: .6; }
+
+.btn-answer .dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+}
+.btn-answer.izhar-btn   .dot { background: var(--izhar); }
+.btn-answer.iguna-btn   .dot { background: var(--iguna); }
+.btn-answer.inoguna-btn .dot { background: var(--inoguna); }
+
+.btn-answer.izhar-btn:hover:not(:disabled)   { border-color: var(--izhar); }
+.btn-answer.iguna-btn:hover:not(:disabled)   { border-color: var(--iguna); }
+.btn-answer.inoguna-btn:hover:not(:disabled) { border-color: var(--inoguna); }
+
+.btn-answer.ans-correct { background:#064e3b !important; border-color:var(--green) !important; color:#6ee7b7 !important; animation:pop .3s ease; }
+.btn-answer.ans-wrong   { background:#7f1d1d !important; border-color:var(--red) !important; color:#fca5a5 !important; animation:shake .35s ease; }
+.btn-answer.ans-show    { background:#064e3b55 !important; border-color:var(--green) !important; color:#6ee7b7 !important; }
+
+.feedback-box {
+  margin-top:14px; border-radius:12px; padding:14px 16px;
+  font-size:14px; line-height:1.7; display:none; animation:fadeUp .3s ease;
+}
+.feedback-box.correct { background:#064e3b55; border:1.5px solid var(--green); color:#6ee7b7; }
+.feedback-box.wrong   { background:#7f1d1d33; border:1.5px solid var(--red); color:#fca5a5; }
+.fb-title { font-weight:800; font-size:15px; margin-bottom:4px; }
+.fb-motiv { font-size:13px; opacity:.85; margin-top:4px; font-style:italic; }
+
+.btn-next-q {
+  display:none; width:100%;
+  background: linear-gradient(135deg,#6366f1,#a78bfa);
+  color:#fff; border:none; border-radius:14px;
+  padding:14px; font-size:17px; font-weight:800;
+  cursor:pointer; font-family:var(--ui);
+  margin-top:14px; transition:transform .15s;
+  box-shadow:0 4px 18px #6366f144;
+}
+.btn-next-q:hover { transform:scale(1.02); }
+
+/* ════════════════════════════════════
+   ПЕРЕХОДНЫЙ ЭКРАН
+════════════════════════════════════ */
+#s-transition {
+  text-align: center; padding: 40px 20px;
+  display: none; flex-direction: column; align-items: center; gap: 20px;
+}
+#s-transition.active { display: flex; animation: slideIn .5s ease; }
+
+.transition-icon { font-size: 72px; animation: float 2.5s ease-in-out infinite; }
+.transition-title {
+  font-size: clamp(24px,7vw,36px); font-weight: 900;
+  background: linear-gradient(135deg,#f59e0b,#a78bfa);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.transition-score-box {
+  background:var(--card); border:2px solid #a78bfa;
+  border-radius:var(--r); padding:18px 40px; box-shadow:var(--shadow);
+}
+.transition-score-num { font-size:52px; font-weight:900; color:#a78bfa; line-height:1; }
+.transition-score-lbl { font-size:14px; color:var(--muted); margin-top:4px; }
+.transition-msg { font-size:16px; font-weight:700; color:#e2e8f0; line-height:1.6; max-width:380px; }
+
+/* ════════════════════════════════════
+   ЧАСТЬ 2 — ПЕРЕТАСКИВАНИЕ
+════════════════════════════════════ */
+#s-drag { }
+
+.drag-header { margin-bottom:16px; }
+.drag-title { font-size:clamp(18px,5vw,24px); font-weight:900; margin-bottom:4px; }
+.drag-hint  { font-size:13px; color:var(--muted); }
+
+/* Boxes */
+.boxes-wrap { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+
+.drop-box {
+  border: 2.5px dashed; border-radius:var(--r);
+  padding:12px 8px; min-height:140px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  cursor:pointer; transition:border-color .2s, background .2s, transform .15s;
+}
+.drop-box.izhar-box   { border-color:#2dd4bf44; background:#0a262055; }
+.drop-box.iguna-box   { border-color:#a78bfa44; background:#1a0f3c55; }
+.drop-box.inoguna-box { border-color:#f59e0b44; background:#1c100055; }
+
+.drop-box.active-target.izhar-box   { border-color:var(--izhar);   background:#0a262099; transform:scale(1.02); }
+.drop-box.active-target.iguna-box   { border-color:var(--iguna);   background:#1a0f3c99; transform:scale(1.02); }
+.drop-box.active-target.inoguna-box { border-color:var(--inoguna); background:#1c100099; transform:scale(1.02); }
+
+.box-header { text-align:center; width:100%; }
+.box-title  { font-size:clamp(11px,3vw,14px); font-weight:800; margin-bottom:4px; }
+.izhar-box   .box-title { color:var(--izhar); }
+.iguna-box   .box-title { color:var(--iguna); }
+.inoguna-box .box-title { color:var(--inoguna); }
+
+.box-letters {
+  font-family:var(--arabic); font-size:clamp(14px,3.5vw,18px);
+  direction:rtl; text-align:center; margin-bottom:4px;
+}
+.izhar-box   .box-letters { color:var(--izhar2); }
+.iguna-box   .box-letters { color:var(--iguna2); }
+.inoguna-box .box-letters { color:var(--inoguna2); }
+
+/* Cards pool */
+.pool-label { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.cards-pool { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:18px; min-height:50px; }
+
+.drag-card {
+  background:var(--card); border:2.5px solid var(--border);
+  border-radius:14px; padding:10px 14px;
+  font-family:var(--arabic); font-size:clamp(18px,5vw,26px);
+  direction:rtl; text-align:center; line-height:1.8;
+  color:#f1f5f9; cursor:pointer;
+  transition:transform .15s, border-color .2s, box-shadow .2s;
+  user-select:none;
+}
+.drag-card:hover { transform:scale(1.05); border-color:#f59e0b88; box-shadow:0 6px 20px #00000055; }
+.drag-card.selected { border-color:#f59e0b !important; background:#f59e0b22 !important; transform:scale(1.07); box-shadow:0 0 20px #f59e0b55; }
+.drag-card.placed-correct { border-color:var(--green) !important; background:#064e3b55 !important; cursor:default; }
+.drag-card.placed-wrong   { border-color:var(--red) !important; background:#7f1d1d55 !important; }
+
+.placed-card {
+  width:100%; background:var(--card2);
+  border:1.5px solid; border-radius:10px;
+  padding:7px 6px;
+  font-family:var(--arabic); font-size:clamp(13px,3.5vw,18px);
+  direction:rtl; text-align:center; line-height:1.7;
+  margin-bottom:4px;
+}
+.placed-card.correct { border-color:var(--green); color:#6ee7b7; }
+.placed-card.wrong   { border-color:var(--red); color:#fca5a5; animation:shake .35s ease; }
+
+.select-hint {
+  background:#1e3a5f; border:1.5px solid #3b82f644;
+  border-radius:12px; padding:10px 16px;
+  font-size:13px; color:#93c5fd; text-align:center;
+  margin-bottom:14px; display:none;
+}
+.select-hint.show { display:block; animation:fadeUp .3s ease; }
+
+.btn-check {
+  display:none; width:100%;
+  background:linear-gradient(135deg,#059669,#34d399);
+  color:#fff; border:none; border-radius:14px;
+  padding:16px; font-size:18px; font-weight:800;
+  cursor:pointer; font-family:var(--ui);
+  margin-top:8px; box-shadow:0 4px 20px #34d39944;
+  transition:transform .15s;
+}
+.btn-check.show { display:block; }
+.btn-check:hover { transform:scale(1.02); }
+
+/* ════════════════════════════════════
+   ФИНАЛЬНЫЙ ЭКРАН
+════════════════════════════════════ */
+#s-result {
+  padding-top:30px; gap:20px; text-align:center;
+}
+.result-icon  { font-size:80px; animation:float 2.5s ease-in-out infinite; }
+.result-title {
+  font-size:clamp(24px,7vw,36px); font-weight:900;
+  background:linear-gradient(135deg,#f59e0b,#a78bfa,#2dd4bf);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.result-scores {
+  display:flex; gap:14px; flex-wrap:wrap; justify-content:center;
+}
+.result-score-box {
+  background:var(--card); border:2px solid; border-radius:var(--r);
+  padding:18px 28px; box-shadow:var(--shadow); flex:1; min-width:120px;
+}
+.result-score-box.part1 { border-color:#a78bfa; }
+.result-score-box.part2 { border-color:#2dd4bf; }
+.result-score-box.total { border-color:#f59e0b; }
+.score-num { font-size:44px; font-weight:900; line-height:1; }
+.result-score-box.part1 .score-num { color:#a78bfa; }
+.result-score-box.part2 .score-num { color:#2dd4bf; }
+.result-score-box.total .score-num { color:#f59e0b; }
+.score-lbl { font-size:12px; color:var(--muted); margin-top:4px; }
+.result-msg { font-size:16px; font-weight:700; color:#e2e8f0; line-height:1.6; max-width:380px; }
+.result-stars { font-size:32px; }
+
+.btn-restart {
+  background:linear-gradient(135deg,#f59e0b,#a78bfa);
+  color:#fff; border:none; border-radius:50px;
+  padding:16px 48px; font-size:18px; font-weight:800;
+  cursor:pointer; font-family:var(--ui);
+  box-shadow:0 6px 24px #a78bfa44;
+  transition:transform .15s;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.btn-restart:hover { transform:scale(1.05); }
+
+/* Confetti */
+.conf { position:fixed; pointer-events:none; z-index:999; border-radius:3px; animation:conffall linear forwards; }
+
+/* Mobile */
+@media (max-width:480px) {
+  .boxes-wrap { grid-template-columns:1fr; }
+  .drop-box { min-height:80px; flex-direction:row; flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ СТАРТ ══ -->
+<div id="s-start" class="screen active">
+  <div class="logo-wrap">
+    <div class="logo-circle">📖</div>
+    <div class="logo-ring"></div>
+  </div>
+  <div class="page-title">Правила нуна</div>
+  <div class="page-sub">Интерактивная игра • 2 части</div>
+
+  <div class="rules-preview">
+    <div class="rule-preview-item izhar">
+      <div class="rule-dot"></div>
+      <div>
+        <div class="rule-preview-name">Изхар</div>
+        <div class="rule-preview-desc">Ясное чтение нуна перед ء ه ع ح غ خ</div>
+      </div>
+    </div>
+    <div class="rule-preview-item iguna">
+      <div class="rule-dot"></div>
+      <div>
+        <div class="rule-preview-name">Идгам с гунной</div>
+        <div class="rule-preview-desc">Слияние Нуна с гунной с буквами ي ن م و</div>
+      </div>
+    </div>
+    <div class="rule-preview-item inoguna">
+      <div class="rule-dot"></div>
+      <div>
+        <div class="rule-preview-name">Идгам без гунны</div>
+        <div class="rule-preview-desc">Слияние Нуна без гунны с буквами ر ل</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-big" onclick="startQuiz()">
+    <span>🚀</span> Начать игру!
+  </button>
+</div>
+
+<!-- ══ ЧАСТЬ 1: ВИКТОРИНА ══ -->
+<div id="s-quiz" class="screen">
+  <div class="quiz-header">
+    <div class="quiz-title">Часть 1 — Определи правило</div>
+    <div class="quiz-sub">Выбери правильный ответ для каждого примера</div>
+  </div>
+
+  <div class="top-row">
+    <div class="score-badge">⭐ <span id="q-score">0</span></div>
+    <div class="q-counter">Вопрос <span id="q-num">1</span> из 8</div>
+  </div>
+  <div class="progress-wrap"><div class="progress-fill" id="q-prog" style="width:0%"></div></div>
+  <div class="streak-banner" id="streak-banner"></div>
+
+  <div class="q-card" id="q-card">
+    <div class="q-label">📜 Пример</div>
+    <div class="q-arabic" id="q-arabic"></div>
+    <div class="answer-btns" id="answer-btns"></div>
+    <div class="feedback-box" id="feedback-box">
+      <div class="fb-title" id="fb-title"></div>
+      <div id="fb-expl"></div>
+      <div class="fb-motiv" id="fb-motiv"></div>
+    </div>
+    <button class="btn-next-q" id="btn-next-q" onclick="nextQuizQ()">➡ Следующий вопрос</button>
+  </div>
+</div>
+
+<!-- ══ ПЕРЕХОД ══ -->
+<div id="s-transition" class="screen">
+  <div class="transition-icon" id="tr-icon">🔥</div>
+  <div class="transition-title" id="tr-title"></div>
+  <div class="transition-score-box">
+    <div class="transition-score-num"><span id="tr-score">0</span>/8</div>
+    <div class="transition-score-lbl">правильных ответов в первой части</div>
+  </div>
+  <div class="transition-msg" id="tr-msg"></div>
+  <button class="btn-big" onclick="startDrag()" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">
+    <span>🚀</span> Продолжить
+  </button>
+</div>
+
+<!-- ══ ЧАСТЬ 2: ПЕРЕТАСКИВАНИЕ ══ -->
+<div id="s-drag" class="screen">
+  <div class="drag-header">
+    <div class="drag-title">Часть 2 — Перетащи в нужную коробку</div>
+    <div class="drag-hint">Нажми карточку, затем нажми нужную коробку</div>
+  </div>
+
+  <div class="boxes-wrap">
+    <div class="drop-box izhar-box" id="box-izhar" onclick="dropToBox('izhar')">
+      <div class="box-header">
+        <div class="box-title">Изхар</div>
+      </div>
+    </div>
+    <div class="drop-box iguna-box" id="box-iguna" onclick="dropToBox('iguna')">
+      <div class="box-header">
+        <div class="box-title">Идгам с гунной</div>
+      </div>
+    </div>
+    <div class="drop-box inoguna-box" id="box-inoguna" onclick="dropToBox('inoguna')">
+      <div class="box-header">
+        <div class="box-title">Идгам без гунны</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="select-hint" id="select-hint">👆 Теперь нажми нужную коробку выше</div>
+
+  <div class="pool-label">Карточки</div>
+  <div class="cards-pool" id="cards-pool"></div>
+
+  <button class="btn-check" id="btn-check" onclick="checkDrag()">✅ Проверить ответы</button>
+</div>
+
+<!-- ══ ФИНАЛ ══ -->
+<div id="s-result" class="screen">
+  <div class="result-icon">🏆</div>
+  <div class="result-title" id="res-title"></div>
+  <div class="result-stars" id="res-stars"></div>
+  <div class="result-scores">
+    <div class="result-score-box part1">
+      <div class="score-num"><span id="res-s1">0</span>/8</div>
+      <div class="score-lbl">Часть 1</div>
+    </div>
+    <div class="result-score-box part2">
+      <div class="score-num"><span id="res-s2">0</span>/12</div>
+      <div class="score-lbl">Часть 2</div>
+    </div>
+    <div class="result-score-box total">
+      <div class="score-num"><span id="res-tot">0</span>/20</div>
+      <div class="score-lbl">Всего</div>
+    </div>
+  </div>
+  <div class="result-msg" id="res-msg"></div>
+  <button class="btn-restart" onclick="restartAll()">🔄 Играть снова</button>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ══════════════════════════════════════
+// ДАННЫЕ
+// ══════════════════════════════════════
+
+// Часть 1
+const QUIZ = [
+  { arabic:'أَنۡعَمۡتَ',          ans:'izhar',   expl:'После نۡ идёт буква ع — буква изхара. Нун читается ясно и чётко!' },
+  { arabic:'مِنۡهُمۡ',            ans:'izhar',   expl:'После نۡ идёт буква ه — буква изхара. Нун читается ясно!' },
+  { arabic:'مَن يَعۡمَلۡ',        ans:'iguna',   expl:'После نۡ идёт буква ي — буква идгама с гунной. Нун сливается с ي!' },
+  { arabic:'خَيۡرٌ مِّنۡ',        ans:'iguna',   expl:'После танвина идёт буква م — буква идгама с гунной. Слияние с гунной!' },
+  { arabic:'مِن رَّبِّـهِمۡ',      ans:'inoguna', expl:'После نۡ идёт буква ر — буква идгама без гунны. Нун сливается с ر без гунны!' },
+  { arabic:'يَكُن لَّهُ',        ans:'inoguna', expl:'После نۡ идёт буква ل — буква идгама без гунны. Слияние без гунны!' },
+  { arabic:'غَاسِقٍ إِذَا',       ans:'izhar',   expl:'После танвина идёт буква ء — буква изхара. Нун читается ясно!' },
+  { arabic:'غَفُورٌ رَّحِيمٌ',    ans:'inoguna', expl:'После танвина идёт буква ر — буква идгама без гунны. Слияние без гунны!' },
+];
+
+const RULE_NAMES = { izhar:'Изхар', iguna:'Идгам с гунной', inoguna:'Идгам без гунны' };
+
+// Часть 2
+const DRAG_CARDS = [
+  { id:'d1',  text:'أَنۡعَمۡتَ',         rule:'izhar',   audio:'audio/d1.MP3'  },
+  { id:'d2',  text:'مِنۡهُمۡ',           rule:'izhar',   audio:'audio/d2.MP3'  },
+  { id:'d3',  text:'وَٱنۡحَرۡ',          rule:'izhar',   audio:'audio/d3.MP3'  },
+  { id:'d4',  text:'غَاسِقٍ إِذَا',      rule:'izhar',   audio:'audio/d4.MP3'  },
+  { id:'d5',  text:'مَن يَعۡمَلۡ',       rule:'iguna',   audio:'audio/d5.MP3'  },
+  { id:'d6',  text:'خَيۡرٌ مِّنۡ',       rule:'iguna',   audio:'audio/d6.MP3'  },
+  { id:'d7',  text:'سِرَاجًا وَهَّاجًا', rule:'iguna',   audio:'audio/d7.MP3'  },
+  { id:'d8',  text:'شَيۡءٍ نُّكُرٍ',     rule:'iguna',   audio:'audio/d8.MP3'  },
+  { id:'d9',  text:'مِن رَّبِّـهِمۡ',     rule:'inoguna', audio:'audio/d9.MP3'  },
+  { id:'d10', text:'يَكُن لَّهُ',       rule:'inoguna', audio:'audio/d10.MP3' },
+  { id:'d11', text:'غَفُورٌ رَّحِيمٌ',   rule:'inoguna', audio:'audio/d11.MP3' },
+  { id:'d12', text:'مِن لَّدُنۡهُ',      rule:'inoguna', audio:'audio/d12.MP3' },
+];
+
+// Мотивация
+const MOTIV_CORRECT = ['🌟 Отлично!','🌟 Молодец!','🌟 Прекрасная работа!','🌟 Так держать!','🌟 Ты настоящий знаток таджвида!','🌟 У тебя отлично получается!','🌟 МашаАллах!','🌟 Великолепно!','🌟 Очень хорошо!','🌟 Супер!','🌟 Замечательно!','🌟 Прекрасный ответ!'];
+const MOTIV_STREAK  = ['🔥 Серия правильных ответов!','⚡ Ты в ударе!','🚀 Невероятно! Продолжай!','🏆 Ты почти мастер таджвида!'];
+const MOTIV_WRONG   = ['🙂 Ничего страшного, попробуй ещё раз.','🙂 Ошибки помогают учиться.','🙂 У тебя обязательно получится.','🙂 Будь внимателен!','🙂 Не сдавайся!','🙂 Почти получилось!','🙂 Посмотри на букву после нуна.','🙂 Всё получится, иншаАллах.'];
+const TR_MSGS = ['🚀 Первый этап успешно пройден!','🔥 Отличная работа! Переходим дальше!','⚡ Ты справился с первым испытанием!','🌟 Молодец! Впереди ещё одно задание.','🏆 Ты уже прошёл половину пути!'];
+const FIN_MSGS = ['🎉 Поздравляем! Ты успешно завершил игру!','🏆 Отличная работа! Ты настоящий знаток правил нуна!','🌟 Прекрасный результат! Продолжай изучать Коран!','🔥 Великолепно! Ты хорошо усвоил материал!','🚀 Молодец! Продолжай совершенствовать своё чтение!'];
+
+const rand = arr => arr[Math.floor(Math.random()*arr.length)];
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let quizIdx   = 0;
+let quizScore = 0;
+let streak    = 0;
+let dragScore = 0;
+let selectedCard = null;
+let placedCount  = 0;
+let placedCards  = {}; // id -> box
+
+// ══════════════════════════════════════
+// ЧАСТЬ 1 — ВИКТОРИНА
+// ══════════════════════════════════════
+function startQuiz() {
+  quizIdx = 0; quizScore = 0; streak = 0;
+  showScreen('s-quiz');
+  loadQ();
+}
+
+function loadQ() {
+  const q = QUIZ[quizIdx];
+  document.getElementById('q-prog').style.width = (quizIdx/8*100)+'%';
+  document.getElementById('q-num').textContent  = quizIdx+1;
+  document.getElementById('q-score').textContent = quizScore;
+  document.getElementById('q-arabic').textContent = q.arabic;
+  document.getElementById('q-card').className    = 'q-card';
+
+  // Streak banner
+  const sb = document.getElementById('streak-banner');
+  if (streak >= 3) {
+    sb.textContent = MOTIV_STREAK[Math.min(streak-3, MOTIV_STREAK.length-1)];
+    sb.classList.add('show');
+  } else {
+    sb.classList.remove('show');
+  }
+
+  // Buttons
+  const wrap = document.getElementById('answer-btns');
+  wrap.innerHTML = '';
+  [
+    { key:'izhar',   label:'Изхар' },
+    { key:'iguna',   label:'Идгам с гунной' },
+    { key:'inoguna', label:'Идгам без гунны' },
+  ].forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-answer '+opt.key+'-btn';
+    btn.innerHTML = `<span class="dot"></span>${opt.label}`;
+    btn.onclick = () => answerQ(opt.key);
+    wrap.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'none'; fb.className = 'feedback-box';
+  document.getElementById('btn-next-q').style.display = 'none';
+}
+
+function answerQ(choice) {
+  const q = QUIZ[quizIdx];
+  const correct = choice === q.ans;
+  const btns = document.querySelectorAll('.btn-answer');
+  btns.forEach(b => b.disabled = true);
+
+  // Find chosen btn
+  btns.forEach(b => {
+    if (b.className.includes(choice+'-btn')) b.classList.add(correct ? 'ans-correct' : 'ans-wrong');
+    if (!correct && b.className.includes(q.ans+'-btn')) b.classList.add('ans-show');
+  });
+
+  document.getElementById('q-card').classList.add(correct ? 'correct' : 'wrong');
+
+  if (correct) {
+    quizScore++; streak++;
+    playTone('success'); spawnConfetti(16);
+    const fb = document.getElementById('feedback-box');
+    fb.className = 'feedback-box correct'; fb.style.display = 'block';
+    document.getElementById('fb-title').textContent = '✅ Правильно!';
+    document.getElementById('fb-expl').textContent  = q.expl;
+    document.getElementById('fb-motiv').textContent = rand(MOTIV_CORRECT);
+  } else {
+    streak = 0;
+    playTone('error');
+    const fb = document.getElementById('feedback-box');
+    fb.className = 'feedback-box wrong'; fb.style.display = 'block';
+    document.getElementById('fb-title').textContent = '❌ Неправильно.';
+    document.getElementById('fb-expl').textContent  = 'Правильный ответ: ' + RULE_NAMES[q.ans] + '. ' + q.expl;
+    document.getElementById('fb-motiv').textContent = rand(MOTIV_WRONG);
+  }
+
+  document.getElementById('q-score').textContent = quizScore;
+  const btn = document.getElementById('btn-next-q');
+  btn.style.display = 'block';
+  btn.textContent = quizIdx < 7 ? '➡ Следующий вопрос' : '🏁 Завершить первую часть';
+}
+
+function nextQuizQ() {
+  quizIdx++;
+  if (quizIdx >= 8) showTransition();
+  else {
+    loadQ();
+    const card = document.getElementById('q-card');
+    card.style.animation = 'none';
+    requestAnimationFrame(() => { card.style.animation = 'fadeUp .4s ease'; });
+  }
+}
+
+// ══════════════════════════════════════
+// ПЕРЕХОДНЫЙ ЭКРАН
+// ══════════════════════════════════════
+function showTransition() {
+  document.getElementById('tr-score').textContent = quizScore;
+  let icon, title, msg;
+  if (quizScore === 8) {
+    icon='🏆'; title='Идеально! Все 8 правильно!';
+    msg='МашаАллах! Ты ответил на все вопросы правильно! Посмотрим, справишься ли ты со второй частью так же хорошо.';
+  } else if (quizScore >= 6) {
+    icon='🌟'; title='Отличная работа!';
+    msg='Ты хорошо справился с первой частью! Впереди второе испытание — распредели примеры по правилам.';
+  } else if (quizScore >= 4) {
+    icon='💪'; title='Неплохо! Продолжаем!';
+    msg='Ты на верном пути! Повтори правила ещё раз и посмотрим, как справишься со второй частью.';
+  } else {
+    icon='📚'; title='Продолжай учиться!';
+    msg='Первая часть была непростой. Не сдавайся — во второй части у тебя будет шанс улучшить результат!';
+  }
+  document.getElementById('tr-icon').textContent  = icon;
+  document.getElementById('tr-title').textContent = title;
+  document.getElementById('tr-msg').textContent   = msg;
+  showScreen('s-transition');
+}
+
+// ══════════════════════════════════════
+// ЧАСТЬ 2 — ПЕРЕТАСКИВАНИЕ
+// ══════════════════════════════════════
+function startDrag() {
+  dragScore = 0; selectedCard = null; placedCount = 0; placedCards = {};
+  showScreen('s-drag');
+  buildPool();
+  // Clear boxes
+  ['izhar','iguna','inoguna'].forEach(b => {
+    const box = document.getElementById('box-'+b);
+    box.querySelectorAll('.placed-card').forEach(el => el.remove());
+  });
+  document.getElementById('btn-check').classList.remove('show');
+  document.getElementById('select-hint').classList.remove('show');
+}
+
+function buildPool() {
+  const pool = document.getElementById('cards-pool');
+  pool.innerHTML = '';
+  shuffle(DRAG_CARDS).forEach(c => pool.appendChild(makeCard(c)));
+}
+
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+// ── DRAG STATE ──
+let dragClone   = null;
+let dragSource  = null;
+let dragStartX  = 0;
+let dragStartY  = 0;
+let dragOffX    = 0;
+let dragOffY    = 0;
+let isDragging  = false;
+let cardAudio   = null;
+
+function playCardAudio(audioSrc) {
+  if (!audioSrc) return;
+  try {
+    if (cardAudio) { cardAudio.pause(); cardAudio.currentTime = 0; }
+    cardAudio = new Audio(audioSrc);
+    cardAudio.play().catch(()=>{});
+  } catch(e) {}
+}
+
+function makeCard(c) {
+  const el = document.createElement('div');
+  el.className = 'drag-card';
+  el.id = 'card-'+c.id;
+  el.dataset.id    = c.id;
+  el.dataset.rule  = c.rule;
+  el.dataset.audio = c.audio || '';
+  el.textContent   = c.text;
+
+  // Pointer events — работают и на мышке и на телефоне
+  el.addEventListener('pointerdown', onPointerDown);
+
+  return el;
+}
+
+function onPointerDown(e) {
+  const el = e.currentTarget;
+  if (el.classList.contains('placed-correct')) return;
+  e.preventDefault();
+  el.setPointerCapture(e.pointerId);
+
+  dragSource = el;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
+  isDragging = false;
+
+  const rect = el.getBoundingClientRect();
+  dragOffX = e.clientX - rect.left;
+  dragOffY = e.clientY - rect.top;
+
+  // Play audio immediately on touch/click
+  playCardAudio(el.dataset.audio);
+
+  el.addEventListener('pointermove', onPointerMove);
+  el.addEventListener('pointerup',   onPointerUp);
+  el.addEventListener('pointercancel', onPointerUp);
+}
+
+function onPointerMove(e) {
+  if (!dragSource) return;
+  const dx = Math.abs(e.clientX - dragStartX);
+  const dy = Math.abs(e.clientY - dragStartY);
+
+  // Start visual drag after moving 8px
+  if (!isDragging && (dx > 8 || dy > 8)) {
+    isDragging = true;
+
+    // Clear tap selection
+    if (selectedCard) {
+      const prev = document.getElementById('card-'+selectedCard);
+      if (prev) prev.classList.remove('selected');
+      selectedCard = null;
+      document.getElementById('select-hint').classList.remove('show');
+    }
+
+    // Create floating clone
+    const rect = dragSource.getBoundingClientRect();
+    dragClone = dragSource.cloneNode(true);
+    dragClone.removeAttribute('id');
+    dragClone.style.cssText = [
+      'position:fixed',
+      'z-index:1000',
+      'pointer-events:none',
+      'width:'+rect.width+'px',
+      'left:'+(e.clientX - dragOffX)+'px',
+      'top:'+(e.clientY - dragOffY)+'px',
+      'opacity:0.88',
+      'transform:scale(1.08) rotate(2deg)',
+      'border-color:#f59e0b',
+      'box-shadow:0 14px 36px rgba(0,0,0,0.55)',
+      'transition:none',
+      'touch-action:none'
+    ].join(';');
+    document.body.appendChild(dragClone);
+    dragSource.style.opacity = '0.25';
+  }
+
+  if (!isDragging || !dragClone) return;
+
+  // Move clone
+  dragClone.style.left = (e.clientX - dragOffX) + 'px';
+  dragClone.style.top  = (e.clientY - dragOffY) + 'px';
+
+  // Highlight box under finger
+  dragClone.style.visibility = 'hidden';
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  dragClone.style.visibility = '';
+  document.querySelectorAll('.drop-box').forEach(b => b.classList.remove('active-target'));
+  const box = under ? under.closest('.drop-box') : null;
+  if (box) box.classList.add('active-target');
+}
+
+function onPointerUp(e) {
+  if (!dragSource) return;
+  dragSource.removeEventListener('pointermove', onPointerMove);
+  dragSource.removeEventListener('pointerup',   onPointerUp);
+  dragSource.removeEventListener('pointercancel', onPointerUp);
+
+  document.querySelectorAll('.drop-box').forEach(b => b.classList.remove('active-target'));
+
+  if (isDragging && dragClone) {
+    // Drop to box
+    dragClone.style.visibility = 'hidden';
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    dragClone.remove(); dragClone = null;
+    dragSource.style.opacity = '1';
+
+    const box = under ? under.closest('.drop-box') : null;
+    if (box) {
+      placeCard(dragSource.dataset.id, box.id.replace('box-',''));
+    }
+  } else {
+    // It was a tap — select card
+    selectCard(dragSource.dataset.id);
+  }
+
+  isDragging = false;
+  dragSource = null;
+}
+
+function selectCard(id) {
+  const el = document.getElementById('card-'+id);
+  if (!el || el.classList.contains('placed-correct')) return;
+
+  if (selectedCard && selectedCard !== id) {
+    const prev = document.getElementById('card-'+selectedCard);
+    if (prev) prev.classList.remove('selected');
+  }
+
+  if (selectedCard === id) {
+    el.classList.remove('selected');
+    selectedCard = null;
+    document.getElementById('select-hint').classList.remove('show');
+    document.querySelectorAll('.drop-box').forEach(b => b.classList.remove('active-target'));
+  } else {
+    el.classList.add('selected');
+    selectedCard = id;
+    document.getElementById('select-hint').classList.add('show');
+    document.querySelectorAll('.drop-box').forEach(b => b.classList.add('active-target'));
+  }
+}
+
+function dropToBox(boxName) {
+  if (!selectedCard) return;
+  placeCard(selectedCard, boxName);
+  selectedCard = null;
+  document.getElementById('select-hint').classList.remove('show');
+  document.querySelectorAll('.drop-box').forEach(b => b.classList.remove('active-target'));
+}
+
+function placeCard(cardId, boxName) {
+  const cardData = DRAG_CARDS.find(c => c.id === cardId);
+  const cardEl   = document.getElementById('card-'+cardId);
+  if (!cardData || !cardEl) return;
+
+  cardEl.classList.remove('selected');
+
+  const box = document.getElementById('box-'+boxName);
+  const placed = document.createElement('div');
+  placed.className = 'placed-card';
+  placed.id = 'placed-'+cardId;
+  placed.dataset.id   = cardData.id;
+  placed.dataset.rule = cardData.rule;
+  placed.dataset.box  = boxName;
+  placed.textContent  = cardData.text;
+  box.appendChild(placed);
+
+  cardEl.remove();
+  placedCards[cardData.id] = boxName;
+  placedCount++;
+
+  if (placedCount === DRAG_CARDS.length) {
+    document.getElementById('btn-check').classList.add('show');
+  }
+}
+
+function checkDrag() {
+  dragScore = 0;
+  const wrongIds = [];
+
+  Object.entries(placedCards).forEach(([id, box]) => {
+    const cardData = DRAG_CARDS.find(c => c.id === id);
+    const placedEl = document.getElementById('placed-'+id);
+    if (!cardData || !placedEl) return;
+
+    if (cardData.rule === box) {
+      dragScore++;
+      placedEl.classList.add('correct');
+    } else {
+      placedEl.classList.add('wrong');
+      wrongIds.push(id);
+    }
+  });
+
+  // Return wrong cards to pool after delay
+  setTimeout(() => {
+    wrongIds.forEach(id => {
+      const placedEl = document.getElementById('placed-'+id);
+      const cardData = DRAG_CARDS.find(c => c.id === id);
+      if (placedEl) placedEl.remove();
+      delete placedCards[id];
+      placedCount--;
+
+      // Re-add to pool
+      const pool = document.getElementById('cards-pool');
+      pool.appendChild(makeCard(cardData));
+    });
+
+    if (wrongIds.length === 0) {
+      // All correct!
+      setTimeout(showResult, 600);
+    } else {
+      document.getElementById('btn-check').classList.remove('show');
+      if (placedCount < DRAG_CARDS.length) {
+        // Still cards to place
+      }
+    }
+  }, 1200);
+
+  if (wrongIds.length === 0) {
+    spawnConfetti(60);
+  }
+}
+
+// ══════════════════════════════════════
+// ФИНАЛ
+// ══════════════════════════════════════
+function showResult() {
+  const total = quizScore + dragScore;
+  document.getElementById('res-s1').textContent  = quizScore;
+  document.getElementById('res-s2').textContent  = dragScore;
+  document.getElementById('res-tot').textContent = total;
+
+  const stars = Math.round((total/20)*5);
+  document.getElementById('res-stars').textContent = '⭐'.repeat(stars)+'☆'.repeat(5-stars);
+  document.getElementById('res-title').textContent = total >= 18 ? 'МашаАллах! Отлично!' : total >= 14 ? 'Замечательно!' : total >= 10 ? 'Хорошая работа!' : 'Не сдавайся!';
+  document.getElementById('res-msg').textContent   = rand(FIN_MSGS);
+
+  spawnConfetti(80);
+  showScreen('s-result');
+}
+
+function restartAll() {
+  quizIdx=0; quizScore=0; streak=0; dragScore=0;
+  selectedCard=null; placedCount=0; placedCards={};
+  showScreen('s-start');
+}
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.animation = 'none';
+  requestAnimationFrame(() => { el.style.animation = ''; });
+  window.scrollTo(0,0);
+}
+
+function playTone(type) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    if (type==='success') {
+      osc.type='sine';
+      osc.frequency.setValueAtTime(523,ctx.currentTime);
+      osc.frequency.setValueAtTime(659,ctx.currentTime+.12);
+      osc.frequency.setValueAtTime(784,ctx.currentTime+.24);
+      gain.gain.setValueAtTime(.25,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.55);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+.55);
+    } else {
+      osc.type='sawtooth';
+      osc.frequency.setValueAtTime(200,ctx.currentTime);
+      osc.frequency.setValueAtTime(150,ctx.currentTime+.15);
+      gain.gain.setValueAtTime(.15,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+.35);
+    }
+  } catch(e){}
+}
+
+function spawnConfetti(n=25) {
+  const cols=['#2dd4bf','#a78bfa','#f59e0b','#10b981','#ec4899','#fbbf24','#38bdf8'];
+  for(let i=0;i<n;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');
+      c.className='conf';
+      c.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${6+Math.random()*8}px;height:${8+Math.random()*10}px;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4000);
+    },i*45);
+  }
+}
+</script>
+</body>
+</html>
