@@ -612,13 +612,13 @@ function answer(choice) {
     document.getElementById('try-again').classList.add('show');
   }
 
-  // Auto advance after 1.7s regardless of correct/wrong
+  // Auto advance after 2s regardless of correct/wrong
   setTimeout(() => {
     document.getElementById('try-again').classList.remove('show');
     current++;
     if (current >= 12) showResult();
     else loadWord();
-  }, 1700);
+  }, 2000);
 }
 
 // ══════════════════════════════
