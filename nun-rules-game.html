@@ -3,7 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Правила нуна — Таджвид для детей">
+<meta property="og:description" content="Интерактивная игра для детей — 2 части: викторина и перетаскивание карточек!">
+<meta property="og:image" content="https://dzhos7465-dotcom.github.io/tajweed/preview.png">
+<meta property="og:url" content="https://dzhos7465-dotcom.github.io/tajweed/nun-rules-game.html">
+<meta name="theme-color" content="#0f172a">
 <title>Правила нуна — Таджвид для детей</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E771859ZNN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E771859ZNN');
+</script>
 <style>
 /* ════════════════════════════════════
    ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ
@@ -422,14 +436,14 @@ body::before {
       <div class="rule-dot"></div>
       <div>
         <div class="rule-preview-name">Идгам с гунной</div>
-        <div class="rule-preview-desc">Слияние Нуна с гунной с буквами ي ن م و</div>
+        <div class="rule-preview-desc">Слияние с гунной перед ي ن م و</div>
       </div>
     </div>
     <div class="rule-preview-item inoguna">
       <div class="rule-dot"></div>
       <div>
         <div class="rule-preview-name">Идгам без гунны</div>
-        <div class="rule-preview-desc">Слияние Нуна без гунны с буквами ر ل</div>
+        <div class="rule-preview-desc">Слияние без гунны перед ر ل</div>
       </div>
     </div>
   </div>
@@ -1022,27 +1036,9 @@ function showScreen(id) {
 
 function playTone(type) {
   try {
-    const ctx = new (window.AudioContext||window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    if (type==='success') {
-      osc.type='sine';
-      osc.frequency.setValueAtTime(523,ctx.currentTime);
-      osc.frequency.setValueAtTime(659,ctx.currentTime+.12);
-      osc.frequency.setValueAtTime(784,ctx.currentTime+.24);
-      gain.gain.setValueAtTime(.25,ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.55);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+.55);
-    } else {
-      osc.type='sawtooth';
-      osc.frequency.setValueAtTime(200,ctx.currentTime);
-      osc.frequency.setValueAtTime(150,ctx.currentTime+.15);
-      gain.gain.setValueAtTime(.15,ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+.35);
-    }
-  } catch(e){}
+    const snd = new Audio(type === 'success' ? 'audio/success.wav' : 'audio/error.wav');
+    snd.play().catch(()=>{});
+  } catch(e) {}
 }
 
 function spawnConfetti(n=25) {
