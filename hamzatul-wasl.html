@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Хамзатуль-васль — Игра по таджвиду">
+<meta property="og:description" content="Интерактивная игра для детей — определи как читается хамзатуль-васль!">
+<meta property="og:image" content="https://dzhos7465-dotcom.github.io/tajweed/preview.png">
+<meta property="og:url" content="https://dzhos7465-dotcom.github.io/tajweed/hamzatul-wasl.html">
+<meta name="theme-color" content="#f0f9ff">
+<title>Хамзатуль-васль — Таджвид для детей</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E771859ZNN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E771859ZNN');
+</script>
+
+<style>
+:root {
+  --bg:      #f0f9ff;
+  --bg2:     #e0f2fe;
+  --card:    #ffffff;
+  --border:  #bae6fd;
+  --blue:    #0ea5e9;
+  --blue2:   #38bdf8;
+  --orange:  #f59e0b;
+  --orange2: #fbbf24;
+  --green:   #10b981;
+  --red:     #ef4444;
+  --text:    #0f172a;
+  --text2:   #334155;
+  --muted:   #64748b;
+  --arabic:  'Amiri', 'Scheherazade New', serif;
+  --ui:      'Baloo 2', 'Nunito', sans-serif;
+  --r:       20px;
+  --shadow:  0 4px 24px rgba(14,165,233,0.12);
+  --shadow2: 0 8px 32px rgba(14,165,233,0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+@media (prefers-color-scheme: dark) { html { background: #f0f9ff !important; color: #0f172a !important; } }
+
+body {
+  font-family: var(--ui);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color-scheme: light;
+}
+
+/* Subtle background pattern */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, #bae6fd44 0%, transparent 70%),
+    radial-gradient(ellipse 50% 30% at 80% 80%, #fed7aa33 0%, transparent 70%),
+    radial-gradient(1.5px 1.5px at 15% 25%, #0ea5e933 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 60%,   #0ea5e922 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 30%, #f59e0b22 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 70%,   #0ea5e933 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 85%,   #f59e0b22 0%, transparent 100%);
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* ── SCREENS ── */
+.screen { width: 100%; display: none; }
+.screen.active { display: flex; flex-direction: column; align-items: center; animation: fadeUp .4s ease; }
+
+@keyframes fadeUp    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pop       { 0%{transform:scale(1)} 45%{transform:scale(1.15)} 100%{transform:scale(1)} }
+@keyframes shake     { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(-10px)} 50%{transform:translateX(10px)} }
+@keyframes float     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes spin      { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes conffall  { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(540deg);opacity:0} }
+@keyframes checkIn   { 0%{transform:scale(0) rotate(-20deg);opacity:0} 70%{transform:scale(1.2) rotate(5deg)} 100%{transform:scale(1) rotate(0deg);opacity:1} }
+@keyframes crossIn   { 0%{transform:scale(0);opacity:0} 70%{transform:scale(1.2)} 100%{transform:scale(1);opacity:1} }
+@keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+/* ════════════════════════
+   START SCREEN
+════════════════════════ */
+#s-start { gap: 0; padding-top: 20px; text-align: center; }
+
+.logo-wrap {
+  position: relative; width: 120px; height: 120px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-circle {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 50px;
+  box-shadow: 0 0 36px #0ea5e955;
+  animation: float 3s ease-in-out infinite;
+}
+.logo-ring {
+  position: absolute; inset: -7px; border-radius: 50%;
+  border: 3px dashed #0ea5e944;
+  animation: spin 10s linear infinite;
+}
+
+.start-title {
+  font-size: clamp(26px,7vw,40px); font-weight: 900;
+  background: linear-gradient(135deg, #0ea5e9, #f59e0b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 6px; line-height: 1.1;
+}
+.start-sub {
+  font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.6;
+}
+
+.rule-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 22px 20px;
+  width: 100%; margin-bottom: 28px;
+  box-shadow: var(--shadow); text-align: left;
+}
+.rule-card h3 {
+  font-size: 16px; font-weight: 800; color: var(--blue);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.rule-card p { font-size: 14px; line-height: 1.7; color: var(--text2); }
+
+.rule-row {
+  display: flex; gap: 10px; margin-top: 14px;
+}
+.rule-pill {
+  flex: 1; border-radius: 14px; padding: 12px 10px;
+  text-align: center;
+}
+.rule-pill.kasra  { background: #eff6ff; border: 1.5px solid #93c5fd; }
+.rule-pill.damma  { background: #fffbeb; border: 1.5px solid #fcd34d; }
+.rule-pill-arabic {
+  font-family: var(--arabic); font-size: 32px;
+  direction: rtl; margin-bottom: 4px;
+}
+.rule-pill.kasra  .rule-pill-arabic { color: var(--blue); }
+.rule-pill.damma  .rule-pill-arabic { color: var(--orange); }
+.rule-pill-label { font-size: 12px; font-weight: 700; color: var(--muted); }
+
+.btn-start {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 18px 52px; font-size: 20px; font-weight: 800;
+  cursor: pointer; font-family: var(--ui);
+  box-shadow: 0 6px 24px #0ea5e955;
+  transition: transform .15s, box-shadow .15s;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-start:hover  { transform: scale(1.05); }
+.btn-start:active { transform: scale(.97); }
+
+/* ════════════════════════
+   GAME SCREEN
+════════════════════════ */
+#s-game { gap: 0; padding-top: 10px; }
+
+/* Top bar */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; margin-bottom: 14px;
+}
+.score-pill {
+  background: var(--card); border: 1.5px solid var(--blue);
+  border-radius: 50px; padding: 6px 18px;
+  font-weight: 800; font-size: 15px; color: var(--blue);
+  display: flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px #0ea5e922;
+}
+.q-counter { font-size: 14px; color: var(--muted); font-weight: 700; }
+
+.progress-wrap {
+  width: 100%; background: #e0f2fe;
+  border-radius: 50px; height: 10px;
+  margin-bottom: 24px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #f59e0b);
+  border-radius: 50px;
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  min-width: 6px;
+}
+
+/* Word card */
+.word-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 28px;
+  width: 100%; padding: 36px 20px 28px;
+  text-align: center;
+  box-shadow: var(--shadow2);
+  margin-bottom: 24px;
+  position: relative;
+  transition: border-color .3s, box-shadow .3s;
+}
+.word-card.correct { border-color: var(--green); box-shadow: 0 4px 24px #10b98133; }
+.word-card.wrong   { border-color: var(--red);   box-shadow: 0 4px 24px #ef444433; }
+
+.word-arabic {
+  font-family: var(--arabic);
+  font-size: clamp(52px, 14vw, 80px);
+  direction: rtl; text-align: center;
+  line-height: 1.6; color: var(--text);
+  margin-bottom: 0;
+}
+
+/* Feedback icon */
+.feedback-icon {
+  position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 900; box-shadow: 0 4px 16px #00000022;
+}
+.feedback-icon.correct { display: flex; background: var(--green); color: #fff; animation: checkIn .35s ease; }
+.feedback-icon.wrong   { display: flex; background: var(--red);   color: #fff; animation: crossIn .35s ease; }
+
+/* Question text */
+.question-text {
+  font-size: clamp(15px, 4vw, 18px); font-weight: 800;
+  color: var(--text2); text-align: center; margin-bottom: 20px;
+}
+
+/* Try again message */
+.try-again {
+  font-size: 15px; font-weight: 700; color: var(--red);
+  text-align: center; margin-bottom: 14px;
+  display: none; animation: fadeUp .3s ease;
+}
+.try-again.show { display: block; }
+
+/* Answer buttons */
+.answer-btns {
+  display: flex; gap: 16px; justify-content: center; width: 100%;
+}
+
+.btn-kasra, .btn-damma {
+  flex: 1; max-width: 160px;
+  border: none; border-radius: 18px;
+  padding: 16px 10px;
+  font-family: var(--arabic); font-size: 36px;
+  direction: rtl; text-align: center;
+  line-height: 1.4; cursor: pointer;
+  font-weight: 700;
+  transition: transform .15s, box-shadow .15s, opacity .2s;
+  box-shadow: 0 4px 16px #00000015;
+}
+
+.btn-kasra {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #fff;
+}
+.btn-label { font-family: var(--ui); font-size: 13px; font-weight: 800; opacity: .9; display: block; margin-top: 6px; }
+.btn-vowel { font-family: var(--arabic); font-size: 42px; direction: rtl; display: block; line-height: 1.2; }
+.btn-kasra:hover:not(:disabled)  { transform: scale(1.06); box-shadow: 0 6px 24px #0ea5e955; }
+.btn-kasra:active:not(:disabled) { transform: scale(.96); }
+
+.btn-damma {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #fff;
+}
+.btn-damma:hover:not(:disabled)  { transform: scale(1.06); box-shadow: 0 6px 24px #f59e0b55; }
+.btn-damma:active:not(:disabled) { transform: scale(.96); }
+
+.btn-kasra:disabled, .btn-damma:disabled { opacity: .45; cursor: default; transform: none !important; }
+
+.btn-kasra.btn-correct { box-shadow: 0 6px 24px #10b98155 !important; animation: pop .3s ease; }
+.btn-damma.btn-correct { box-shadow: 0 6px 24px #10b98155 !important; animation: pop .3s ease; }
+.btn-kasra.btn-wrong   { animation: shake .4s ease; }
+.btn-damma.btn-wrong   { animation: shake .4s ease; }
+
+/* ════════════════════════
+   RESULT SCREEN
+════════════════════════ */
+#s-result { gap: 22px; padding-top: 30px; text-align: center; }
+
+.result-icon  { font-size: 80px; animation: float 2.5s ease-in-out infinite; }
+.result-title {
+  font-size: clamp(26px,7vw,38px); font-weight: 900;
+  background: linear-gradient(135deg, #0ea5e9, #f59e0b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.result-cards {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%;
+}
+.result-card {
+  background: var(--card); border: 1.5px solid; border-radius: var(--r);
+  padding: 18px 20px; flex: 1; min-width: 130px;
+  box-shadow: var(--shadow);
+}
+.result-card.points  { border-color: #93c5fd; }
+.result-card.correct { border-color: #6ee7b7; }
+.result-card.percent { border-color: #fcd34d; }
+
+.rc-num { font-size: 44px; font-weight: 900; line-height: 1; }
+.result-card.points  .rc-num { color: var(--blue); }
+.result-card.correct .rc-num { color: var(--green); }
+.result-card.percent .rc-num { color: var(--orange); }
+.rc-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 700; }
+
+.result-stars { font-size: 34px; }
+.result-msg   { font-size: 16px; font-weight: 700; color: var(--text2); line-height: 1.6; max-width: 380px; }
+
+.btn-restart {
+  background: linear-gradient(135deg, #0ea5e9, #f59e0b);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 16px 48px; font-size: 18px; font-weight: 800;
+  cursor: pointer; font-family: var(--ui);
+  box-shadow: 0 6px 24px #0ea5e944;
+  transition: transform .15s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-restart:hover { transform: scale(1.05); }
+
+/* Mistakes */
+.mistakes-wrap {
+  background: var(--card); border: 1.5px solid #fcd34d;
+  border-radius: var(--r); padding: 18px 16px;
+  box-shadow: var(--shadow);
+}
+.mistakes-title {
+  font-size: 15px; font-weight: 800; color: var(--text2);
+  margin-bottom: 12px; text-align: center;
+}
+.mistake-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 12px;
+  margin-bottom: 8px; border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+.mistake-item:last-child { margin-bottom: 0; }
+.mistake-word {
+  font-family: var(--arabic); font-size: 26px;
+  direction: rtl; color: var(--text); flex: 1; text-align: right;
+}
+.mistake-expl { font-size: 13px; color: var(--muted); flex: 2; line-height: 1.5; }
+.mistake-correct {
+  font-size: 22px; font-weight: 900;
+  font-family: var(--arabic); direction: rtl;
+  padding: 4px 10px; border-radius: 8px;
+}
+.mistake-correct.kasra { background: #eff6ff; color: var(--blue); }
+.mistake-correct.damma { background: #fffbeb; color: var(--orange); }
+
+/* Confetti */
+.conf { position:fixed; pointer-events:none; z-index:999; border-radius:3px; animation:conffall linear forwards; }
+
+/* Mobile */
+@media (max-width: 420px) {
+  .word-arabic { font-size: 48px; }
+  .btn-kasra, .btn-damma { font-size: 30px; padding: 14px 8px; }
+  .answer-btns { gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ START ══ -->
+<div id="s-start" class="screen active">
+  <div class="logo-wrap">
+    <div class="logo-circle">📖</div>
+    <div class="logo-ring"></div>
+  </div>
+  <div class="start-title">Хамзатуль-васль</div>
+  <div class="start-sub">Интерактивная игра • 12 слов за раунд</div>
+
+  <div class="rule-card">
+    <h3>⚡ Правило</h3>
+    <p>
+      У хамзатуль-васль на письме не бывает огласовок.
+      Она читается либо с <b>касрой</b>, либо с <b>даммой</b> —
+      в зависимости от третьей буквы слова.
+    </p>
+    <div class="rule-row">
+      <div class="rule-pill kasra">
+        <div class="rule-pill-arabic">ـِ</div>
+        <div class="rule-pill-label">Касра</div>
+      </div>
+      <div class="rule-pill damma">
+        <div class="rule-pill-arabic">ـُ</div>
+        <div class="rule-pill-label">Дамма</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startGame()">
+    <span>🚀</span> Начать игру!
+  </button>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="s-game" class="screen">
+  <div class="top-bar">
+    <div class="score-pill">⭐ <span id="score-num">0</span></div>
+    <div class="q-counter"><span id="q-cur">1</span> / 12</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="word-card" id="word-card">
+    <div class="feedback-icon" id="feedback-icon"></div>
+    <div class="word-arabic" id="word-arabic"></div>
+  </div>
+
+  <div class="question-text">Как читается хамзатуль-васль?</div>
+  <div class="try-again" id="try-again">❌ Попробуй ещё раз</div>
+
+  <div class="answer-btns">
+    <button class="btn-kasra" id="btn-kasra" onclick="answer('kasra')"><span class="btn-vowel">ـِ</span><span class="btn-label">касра</span></button>
+    <button class="btn-damma" id="btn-damma" onclick="answer('damma')"><span class="btn-vowel">ـُ</span><span class="btn-label">дамма</span></button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="s-result" class="screen">
+  <div class="result-icon">🏆</div>
+  <div class="result-title">Поздравляем!</div>
+  <div class="result-stars" id="result-stars"></div>
+  <div class="result-cards">
+    <div class="result-card points">
+      <div class="rc-num" id="res-points">0</div>
+      <div class="rc-lbl">очков</div>
+    </div>
+    <div class="result-card correct">
+      <div class="rc-num" id="res-correct">0/12</div>
+      <div class="rc-lbl">правильно</div>
+    </div>
+    <div class="result-card percent">
+      <div class="rc-num" id="res-percent">0%</div>
+      <div class="rc-lbl">точность</div>
+    </div>
+  </div>
+  <div class="result-msg" id="result-msg"></div>
+  <div class="mistakes-wrap" id="mistakes-wrap" style="display:none; width:100%">
+    <div class="mistakes-title">📋 Разбор ошибок</div>
+    <div id="mistakes-list"></div>
+  </div>
+  <button class="btn-restart" onclick="startGame()">🔄 Играть ещё раз</button>
+</div>
+
+</div>
+<script>
+// ══════════════════════════════
+// СЛОВА
+// ══════════════════════════════
+
+// Касра (اِ) — третья буква с кесрой или сукуном после кесры
+const KASRA_WORDS = [
+  { word: 'ٱقْرَأْ',       audio: 'audio-wasl/w1.MP3'  },
+  { word: 'ٱجْلِسْ',       audio: 'audio-wasl/w2.MP3'  },
+  { word: 'ٱرْكَبْ',       audio: 'audio-wasl/w3.MP3'  },
+  { word: 'ٱصْبِرْ',       audio: 'audio-wasl/w4.MP3'  },
+  { word: 'ٱفْتَحْ',       audio: 'audio-wasl/w5.MP3'  },
+  { word: 'ٱرْجِعْ',       audio: 'audio-wasl/w6.MP3'  },
+  { word: 'ٱشْرَحْ',       audio: 'audio-wasl/w7.MP3'  },
+  { word: 'ٱفْهَمْ',       audio: 'audio-wasl/w8.MP3'  },
+  { word: 'ٱهْدِنَا',      audio: 'audio-wasl/w9.MP3'  },
+  { word: 'ٱرْحَمْنَا',    audio: 'audio-wasl/w10.MP3' },
+  { word: 'ٱسْتَغْفِرْ',   audio: 'audio-wasl/w11.MP3' },
+  { word: 'ٱسْأَلُو',    audio: 'audio-wasl/w12.MP3' },
+  { word: 'ٱضْرِبْ',       audio: 'audio-wasl/w13.MP3' },
+  { word: 'ٱذْهَبْ',       audio: 'audio-wasl/w14.MP3' },
+  { word: 'ٱسْتَعِنْ',     audio: 'audio-wasl/w15.MP3' },
+];
+
+// Дамма (اُ) — третья буква с даммой
+const DAMMA_WORDS = [
+  { word: 'ٱدْرُسْ',       audio: 'audio-wasl/w16.MP3' },
+  { word: 'ٱدْخُلْ',       audio: 'audio-wasl/w17.MP3' },
+  { word: 'ٱنْصُرْ',        audio: 'audio-wasl/w18.MP3' },
+  { word: 'ٱكْتُبْ',       audio: 'audio-wasl/w19.MP3' },
+  { word: 'ٱسْـجُدُو',     audio: 'audio-wasl/w20.MP3' },
+  { word: 'ٱنْظُرُو',      audio: 'audio-wasl/w21.MP3' },
+  { word: 'ٱقْتُلُو',     audio: 'audio-wasl/w22.MP3' },
+  { word: 'ٱسْكُنْ',       audio: 'audio-wasl/w23.MP3' },
+  { word: 'ٱشْكُرُو',     audio: 'audio-wasl/w24.MP3' },
+  { word: 'ٱقْعُدْ',       audio: 'audio-wasl/w25.MP3' },
+  { word: 'ٱتْلُوهَا',     audio: 'audio-wasl/w26.MP3' },
+  { word: 'ٱدْخُلُوهَا',   audio: 'audio-wasl/w27.MP3' },
+  { word: 'ٱخْرُجْ',       audio: 'audio-wasl/w28.MP3' },
+  { word: 'ٱرْكُضْ',       audio: 'audio-wasl/w29.MP3' },
+  { word: 'ٱصْـمُتْ',       audio: 'audio-wasl/w30.MP3' },
+];
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let round       = [];   // 12 words for current round
+let current     = 0;
+let score       = 0;
+let correctCount= 0;
+let currentAudio= null;
+let mistakes    = [];
+
+// ══════════════════════════════
+// GAME LOGIC
+// ══════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function pick(arr, n) {
+  return shuffle(arr).slice(0, n).map(w => ({ ...w, type: 'kasra' in arr[0] ? 'kasra' : 'damma' }));
+}
+
+function startGame() {
+  // Pick 6 from each group and shuffle
+  const kasra6 = shuffle(KASRA_WORDS).slice(0, 6).map(w => ({ ...w, type: 'kasra' }));
+  const damma6 = shuffle(DAMMA_WORDS).slice(0, 6).map(w => ({ ...w, type: 'damma' }));
+  round = shuffle([...kasra6, ...damma6]);
+
+  current = 0; score = 0; correctCount = 0; mistakes = [];
+  showScreen('s-game');
+  loadWord();
+}
+
+function loadWord() {
+  const w = round[current];
+
+  // Update UI
+  document.getElementById('q-cur').textContent = current + 1;
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('progress-fill').style.width = (current / 12 * 100) + '%';
+  document.getElementById('word-arabic').textContent = w.word;
+
+  // Reset card
+  const card = document.getElementById('word-card');
+  card.className = 'word-card';
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = 'fadeUp .4s ease'; });
+
+  // Reset feedback icon
+  const icon = document.getElementById('feedback-icon');
+  icon.className = 'feedback-icon';
+  icon.textContent = '';
+
+  // Reset try-again
+  document.getElementById('try-again').classList.remove('show');
+
+  // Reset buttons
+  const btnK = document.getElementById('btn-kasra');
+  const btnD = document.getElementById('btn-damma');
+  btnK.disabled = false; btnK.className = 'btn-kasra';
+  btnD.disabled = false; btnD.className = 'btn-damma';
+}
+
+function answer(choice) {
+  const w = round[current];
+  const correct = choice === w.type;
+
+  const btnK = document.getElementById('btn-kasra');
+  const btnD = document.getElementById('btn-damma');
+  const card = document.getElementById('word-card');
+  const icon = document.getElementById('feedback-icon');
+
+  btnK.disabled = true; btnD.disabled = true;
+
+  if (correct) {
+    // ✅ Correct
+    correctCount++;
+    score += 10;
+    document.getElementById('score-num').textContent = score;
+
+    card.classList.add('correct');
+    icon.className = 'feedback-icon correct';
+    icon.textContent = '✓';
+
+    if (choice === 'kasra') btnK.classList.add('btn-correct');
+    else                    btnD.classList.add('btn-correct');
+
+    playTone('success');
+    playWordAudio(w.audio);
+    spawnConfetti(14);
+
+  } else {
+    // ❌ Wrong — record mistake, continue
+    mistakes.push({ word: w.word, type: w.type });
+    playTone('error');
+
+    card.classList.add('wrong');
+    icon.className = 'feedback-icon wrong';
+    icon.textContent = '✗';
+
+    if (choice === 'kasra') btnK.classList.add('btn-wrong');
+    else                    btnD.classList.add('btn-wrong');
+
+    document.getElementById('try-again').classList.add('show');
+  }
+
+  // Auto advance after 1.2s regardless of correct/wrong
+  setTimeout(() => {
+    document.getElementById('try-again').classList.remove('show');
+    current++;
+    if (current >= 12) showResult();
+    else loadWord();
+  }, 1200);
+}
+
+// ══════════════════════════════
+// RESULT
+// ══════════════════════════════
+function showResult() {
+  const pct = Math.round((correctCount / 12) * 100);
+  document.getElementById('res-points').textContent  = score;
+  document.getElementById('res-correct').textContent = correctCount + '/12';
+  document.getElementById('res-percent').textContent = pct + '%';
+
+  const stars = Math.round((correctCount / 12) * 5);
+  document.getElementById('result-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(5 - stars);
+
+  let msg;
+  if (correctCount === 12) {
+    msg = 'МашаАллах! Все 12 слов правильно! Ты отличный знаток хамзатуль-васль! 🌟';
+  } else if (correctCount >= 10) {
+    msg = 'Замечательно! Почти идеальный результат! Ещё немного практики! 💪';
+  } else if (correctCount >= 8) {
+    msg = 'Хорошая работа! Продолжай тренироваться! 📖';
+  } else if (correctCount >= 5) {
+    msg = 'Неплохо! Повтори правило и попробуй снова! 🌱';
+  } else {
+    msg = 'Не сдавайся! С каждым разом будет лучше! 🤍';
+  }
+  document.getElementById('result-msg').textContent = msg;
+
+  if (correctCount >= 10) spawnConfetti(60);
+
+  // Show mistakes
+  const mwrap = document.getElementById('mistakes-wrap');
+  const mlist  = document.getElementById('mistakes-list');
+  mlist.innerHTML = '';
+  if (mistakes.length > 0) {
+    mwrap.style.display = 'block';
+    mistakes.forEach(m => {
+      const typeLabel = m.type === 'kasra' ? 'ـِ касра' : 'ـُ дамма';
+      const typeClass = m.type;
+      const expl = m.type === 'kasra'
+        ? 'Читается с касрой — третья буква имеет кесру'
+        : 'Читается с даммой — третья буква имеет дамму';
+      const div = document.createElement('div');
+      div.className = 'mistake-item';
+      div.innerHTML = `
+        <div class="mistake-word">${m.word}</div>
+        <div class="mistake-expl">${expl}</div>
+        <div class="mistake-correct ${typeClass}">${typeLabel}</div>
+      `;
+      mlist.appendChild(div);
+    });
+  } else {
+    mwrap.style.display = 'none';
+  }
+
+  showScreen('s-result');
+}
+
+// ══════════════════════════════
+// AUDIO
+// ══════════════════════════════
+function playWordAudio(src) {
+  if (!src) return;
+  try {
+    if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+    currentAudio = new Audio(src);
+    currentAudio.play().catch(() => {});
+  } catch(e) {}
+}
+
+function playTone(type) {
+  try {
+    const snd = new Audio(type === 'success' ? 'audio/success.wav' : 'audio/error.wav');
+    snd.play().catch(() => {});
+  } catch(e) {}
+}
+
+// ══════════════════════════════
+// HELPERS
+// ══════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.animation = 'none';
+  requestAnimationFrame(() => { el.style.animation = 'fadeUp .4s ease'; });
+  window.scrollTo(0, 0);
+}
+
+function spawnConfetti(n = 25) {
+  const cols = ['#0ea5e9','#f59e0b','#10b981','#a78bfa','#ec4899','#fbbf24','#38bdf8'];
+  for (let i = 0; i < n; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'conf';
+      c.style.cssText = `
+        left:${Math.random()*100}vw; top:-20px;
+        background:${cols[Math.floor(Math.random()*cols.length)]};
+        width:${6+Math.random()*8}px; height:${8+Math.random()*10}px;
+        animation-duration:${1.5+Math.random()*2}s;
+        animation-delay:${Math.random()*.4}s;
+        transform:rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, i * 45);
+  }
+}
+</script>
+</body>
+</html>
