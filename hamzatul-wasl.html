@@ -690,7 +690,6 @@ function playWordAudio(src) {
 
 function playTone(type) {
   try {
-    const snd = new Audio(type === 'success' ? 'audio/success.wav' : 'audio/error.wav');
     snd.play().catch(() => {});
   } catch(e) {}
 }
